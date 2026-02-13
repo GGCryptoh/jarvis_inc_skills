@@ -138,6 +138,43 @@
       },
       "required": ["binary"]
     },
+    "api_config": {
+      "type": ["object", "null"],
+      "description": "API configuration for api_key connection types. Describes the external API endpoint.",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL for API requests"
+        },
+        "auth_header": {
+          "type": "string",
+          "default": "Authorization",
+          "description": "Header name for the API key (e.g. 'Authorization', 'X-API-Key')"
+        },
+        "auth_prefix": {
+          "type": "string",
+          "default": "Bearer",
+          "description": "Prefix before the key value (e.g. 'Bearer', 'Api-Key')"
+        },
+        "vault_service": {
+          "type": "string",
+          "description": "Vault service name to look up the API key (e.g. 'openai', 'stability')"
+        }
+      },
+      "required": ["base_url", "vault_service"]
+    },
+    "output_type": {
+      "type": "string",
+      "enum": ["text", "image", "audio", "data", "mixed"],
+      "default": "text",
+      "description": "Primary output type of this skill. Determines how results are rendered in chat, collateral, and test dialogs. 'image' = base64/URL images, 'audio' = audio files, 'data' = structured JSON, 'mixed' = multiple types."
+    },
+    "collateral": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether skill execution results should be automatically saved to the Collateral page as artifacts."
+    },
     "commands": {
       "type": "array",
       "minItems": 1,
@@ -206,6 +243,10 @@
               "description": {
                 "type": "string",
                 "description": "Description of the return value"
+              },
+              "media_type": {
+                "type": "string",
+                "description": "MIME type of the returned content (e.g. 'image/png', 'audio/mp3', 'application/json'). Used by UI to render results correctly."
               }
             }
           }

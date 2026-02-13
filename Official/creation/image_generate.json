@@ -1,0 +1,63 @@
+{
+  "id": "image-generate",
+  "title": "Image Generation",
+  "description": "Generate, edit, and create variations of images using AI image generation APIs (DALL-E, Stable Diffusion, etc.)",
+  "version": "1.0.0",
+  "author": "Jarvis Inc",
+  "category": "creation",
+  "icon": "Image",
+  "tags": ["image", "art", "generation", "dalle", "creative", "visual"],
+  "status": "available",
+  "connection_type": "api_key",
+  "models": ["DALL-E 3", "DALL-E 2", "GPT-Image-1"],
+  "default_model": "DALL-E 3",
+  "fixed_service": "OpenAI",
+  "service_type": "configurable",
+  "oauth_config": null,
+  "curl_example": "curl https://api.openai.com/v1/images/generations -H 'Authorization: Bearer $OPENAI_API_KEY' -H 'Content-Type: application/json' -d '{\"model\":\"dall-e-3\",\"prompt\":\"a white siamese cat\",\"n\":1,\"size\":\"1024x1024\"}'",
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://api.openai.com/v1",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "openai"
+  },
+  "output_type": "image",
+  "collateral": true,
+  "commands": [
+    {
+      "name": "generate",
+      "description": "Generate an image from a text prompt. Returns a URL or base64 image data.",
+      "parameters": [
+        { "name": "prompt", "type": "string", "required": true, "description": "Detailed text description of the image to generate. Be specific about style, composition, lighting, and subject." },
+        { "name": "size", "type": "string", "required": false, "description": "Image dimensions", "default": "1024x1024", "enum": ["1024x1024", "1024x1792", "1792x1024", "512x512", "256x256"] },
+        { "name": "quality", "type": "string", "required": false, "description": "Image quality level (DALL-E 3 only)", "default": "standard", "enum": ["standard", "hd"] },
+        { "name": "style", "type": "string", "required": false, "description": "Visual style preference (DALL-E 3 only)", "default": "vivid", "enum": ["vivid", "natural"] },
+        { "name": "n", "type": "number", "required": false, "description": "Number of images to generate (1 for DALL-E 3, 1-10 for DALL-E 2)", "default": 1 }
+      ],
+      "returns": { "type": "object", "description": "Generated image object with url (temporary URL valid ~1 hour), revised_prompt (DALL-E 3 may refine your prompt), and b64_json (if requested)", "media_type": "image/png" }
+    },
+    {
+      "name": "edit",
+      "description": "Edit an existing image by providing a mask and prompt describing the desired changes. Requires DALL-E 2.",
+      "parameters": [
+        { "name": "image_url", "type": "string", "required": true, "description": "URL or base64 of the source image to edit (must be square PNG, max 4MB)" },
+        { "name": "prompt", "type": "string", "required": true, "description": "Text description of the desired edit or change" },
+        { "name": "mask_url", "type": "string", "required": false, "description": "URL or base64 of the mask image (transparent areas indicate where to edit)" },
+        { "name": "size", "type": "string", "required": false, "description": "Output image dimensions", "default": "1024x1024", "enum": ["1024x1024", "512x512", "256x256"] },
+        { "name": "n", "type": "number", "required": false, "description": "Number of edited images to generate (1-10)", "default": 1 }
+      ],
+      "returns": { "type": "object", "description": "Edited image object with url and metadata", "media_type": "image/png" }
+    },
+    {
+      "name": "variation",
+      "description": "Create variations of an existing image. Generates similar but distinct versions. Requires DALL-E 2.",
+      "parameters": [
+        { "name": "image_url", "type": "string", "required": true, "description": "URL or base64 of the source image (must be square PNG, max 4MB)" },
+        { "name": "size", "type": "string", "required": false, "description": "Output image dimensions", "default": "1024x1024", "enum": ["1024x1024", "512x512", "256x256"] },
+        { "name": "n", "type": "number", "required": false, "description": "Number of variations to generate (1-10)", "default": 1 }
+      ],
+      "returns": { "type": "object", "description": "Variation image object with url and metadata", "media_type": "image/png" }
+    }
+  ]
+}
