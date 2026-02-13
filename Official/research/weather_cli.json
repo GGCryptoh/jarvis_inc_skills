@@ -1,0 +1,51 @@
+{
+  "id": "weather-cli",
+  "title": "Weather CLI",
+  "description": "Get real-time weather forecasts using wttr.in CLI — plain text, JSON, or graphical output for any location",
+  "version": "1.0.0",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "CloudRain",
+  "tags": ["weather", "forecast", "cli", "temperature", "wttr"],
+  "status": "available",
+  "connection_type": "cli",
+  "models": null,
+  "default_model": null,
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": "curl wttr.in/Philadelphia?format=j1",
+  "cli_config": {
+    "binary": "curl",
+    "install_command": "apt-get install -y curl",
+    "version_check": "curl --version"
+  },
+  "commands": [
+    {
+      "name": "get_forecast",
+      "description": "Get a weather forecast for a location. Returns structured JSON with current conditions and 3-day forecast.",
+      "parameters": [
+        { "name": "location", "type": "string", "required": true, "description": "City name, airport code, or coordinates (e.g. 'Philadelphia', 'JFK', '40.7,-74.0')" },
+        { "name": "days", "type": "number", "required": false, "description": "Number of forecast days (0-3)", "default": 3 },
+        { "name": "format", "type": "string", "required": false, "description": "Output format: 'json' for structured data, 'text' for plain text, 'oneline' for a single summary line", "default": "json", "enum": ["json", "text", "oneline"] }
+      ],
+      "returns": { "type": "object", "description": "Weather data with current conditions (temp, humidity, wind, description) and daily forecasts with min/max temp, precipitation chance, and hourly breakdowns" }
+    },
+    {
+      "name": "get_current",
+      "description": "Get current weather conditions only (no forecast). Fast, single-line response.",
+      "parameters": [
+        { "name": "location", "type": "string", "required": true, "description": "City name, airport code, or coordinates" }
+      ],
+      "returns": { "type": "string", "description": "Single-line current weather summary, e.g. '☀️ +42°F Philadelphia, United States'" }
+    },
+    {
+      "name": "get_moon_phase",
+      "description": "Get current moon phase information for a location",
+      "parameters": [
+        { "name": "location", "type": "string", "required": true, "description": "City name or coordinates" }
+      ],
+      "returns": { "type": "string", "description": "ASCII art moon phase with phase name and illumination percentage" }
+    }
+  ]
+}

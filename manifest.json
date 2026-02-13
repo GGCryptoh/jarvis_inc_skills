@@ -1,7 +1,8 @@
 {
-  "version": "0.0.1",
-  "updated_at": "2026-02-11T00:00:00Z",
+  "version": "0.1.0",
+  "updated_at": "2026-02-12T00:00:00Z",
   "skills": [
-    { "path": "Official/research/research_web.json", "checksum": "" }
+    { "path": "Official/research/research_web.json", "checksum": "" },
+    { "path": "Official/research/weather_cli.json", "checksum": "" }
   ]
 }
