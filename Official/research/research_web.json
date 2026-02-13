@@ -1,0 +1,49 @@
+{
+  "id": "research-web",
+  "title": "Research Web",
+  "description": "Search the web, analyze pages, and fact-check claims using AI-powered research",
+  "version": "1.0.0",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "Globe",
+  "tags": ["search", "web", "research", "fact-check", "browse"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Opus 4.6", "Claude Opus 4.5", "Claude Sonnet 4.5", "Claude Haiku 4.5", "GPT-5.2", "o3-pro", "o4-mini", "Gemini 3 Pro", "Gemini 2.5 Flash", "DeepSeek R1", "Llama 3.3", "Grok 4"],
+  "default_model": "Claude Sonnet 4.5",
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "commands": [
+    {
+      "name": "search",
+      "description": "Search the web for information on a topic",
+      "parameters": [
+        { "name": "query", "type": "string", "required": true, "description": "Search query string" },
+        { "name": "max_results", "type": "number", "required": false, "description": "Maximum number of results to return", "default": 10 },
+        { "name": "time_range", "type": "string", "required": false, "description": "Time filter: 'day', 'week', 'month', 'year', or 'all'", "default": "all" }
+      ],
+      "returns": { "type": "array", "description": "Array of search result objects with title, url, snippet, and relevance score" }
+    },
+    {
+      "name": "analyze_url",
+      "description": "Fetch and analyze the content of a specific URL",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "The URL to fetch and analyze" },
+        { "name": "questions", "type": "array", "required": false, "description": "Specific questions to answer about the page content" }
+      ],
+      "returns": { "type": "object", "description": "Analysis object with summary, answers to questions, key facts, and metadata" }
+    },
+    {
+      "name": "fact_check",
+      "description": "Verify a claim by cross-referencing multiple sources",
+      "parameters": [
+        { "name": "claim", "type": "string", "required": true, "description": "The claim or statement to fact-check" },
+        { "name": "sources_count", "type": "number", "required": false, "description": "Minimum number of sources to consult", "default": 3 }
+      ],
+      "returns": { "type": "object", "description": "Fact-check result with verdict (true/false/partially_true/unverifiable), confidence score, supporting sources, and reasoning" }
+    }
+  ]
+}

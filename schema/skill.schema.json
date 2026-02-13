@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jarvis-inc.dev/schemas/skill/v1.0.0/skill.schema.json",
+  "title": "Jarvis Inc Skill Definition",
+  "description": "JSON Schema for defining skills in the Jarvis Inc Skills Repository. Skills represent capabilities that can be assigned to AI agents.",
+  "type": "object",
+  "required": ["id", "title", "description", "version", "author", "category", "icon", "connection_type", "commands"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Unique skill identifier in kebab-case (e.g. 'read-email', 'generate-code')"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "Human-readable skill title displayed in the UI"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Brief description of what the skill does"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version string (e.g. '1.0.0', '2.3.1')"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Author name or organization"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["communication", "research", "creation", "analysis"],
+      "description": "Skill category for grouping in the UI"
+    },
+    "icon": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Lucide React icon name (e.g. 'Mail', 'Globe', 'Code'). Must be a valid Lucide icon identifier."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "uniqueItems": true,
+      "description": "Array of lowercase kebab-case tags for search and filtering"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["available", "coming_soon", "beta", "deprecated"],
+      "default": "available",
+      "description": "Current availability status of the skill"
+    },
+    "connection_type": {
+      "type": "string",
+      "enum": ["llm", "oauth", "api_key", "cli", "none"],
+      "description": "How the skill connects to its underlying service. 'llm' = uses an AI model, 'oauth' = OAuth 2.0 flow, 'api_key' = API key authentication, 'cli' = command-line tool, 'none' = no external connection"
+    },
+    "models": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string"
+      },
+      "description": "Available LLM models for this skill. Required when connection_type is 'llm', null otherwise."
+    },
+    "default_model": {
+      "type": ["string", "null"],
+      "description": "Default model to use. Required when connection_type is 'llm', null otherwise."
+    },
+    "fixed_service": {
+      "type": ["string", "null"],
+      "description": "Name of the fixed external service (e.g. 'Google', 'Slack', 'OpenAI'). Used when service_type is 'fixed'."
+    },
+    "service_type": {
+      "type": ["string", "null"],
+      "enum": ["fixed", "configurable", null],
+      "description": "'fixed' = hardcoded to one service, 'configurable' = user can choose provider, null = not applicable"
+    },
+    "oauth_config": {
+      "type": ["object", "null"],
+      "description": "OAuth 2.0 configuration. Required when connection_type is 'oauth'.",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "OAuth provider identifier (e.g. 'google', 'slack', 'github')"
+        },
+        "auth_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Authorization endpoint URL"
+        },
+        "token_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Token exchange endpoint URL"
+        },
+        "scopes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Required OAuth scopes"
+        },
+        "pkce": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to use PKCE (Proof Key for Code Exchange) in the OAuth flow"
+        }
+      },
+      "required": ["provider", "auth_url", "token_url", "scopes"]
+    },
+    "curl_example": {
+      "type": ["string", "null"],
+      "description": "Example cURL command demonstrating the underlying API call. Useful for api_key connection types."
+    },
+    "cli_config": {
+      "type": ["object", "null"],
+      "description": "CLI tool configuration. Required when connection_type is 'cli'.",
+      "properties": {
+        "binary": {
+          "type": "string",
+          "description": "CLI binary name or path"
+        },
+        "install_command": {
+          "type": "string",
+          "description": "Command to install the CLI tool"
+        },
+        "version_check": {
+          "type": "string",
+          "description": "Command to check installed version"
+        }
+      },
+      "required": ["binary"]
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Array of command definitions that this skill exposes",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "parameters", "returns"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Command identifier in snake_case"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 5,
+            "description": "What this command does"
+          },
+          "parameters": {
+            "type": "array",
+            "description": "Array of parameter definitions for this command",
+            "items": {
+              "type": "object",
+              "required": ["name", "type", "required", "description"],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$",
+                  "description": "Parameter name in snake_case"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["string", "number", "boolean", "array", "object"],
+                  "description": "Parameter data type"
+                },
+                "required": {
+                  "type": "boolean",
+                  "description": "Whether this parameter is required"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Human-readable parameter description"
+                },
+                "default": {
+                  "description": "Default value if parameter is optional"
+                },
+                "enum": {
+                  "type": "array",
+                  "description": "Allowed values for this parameter"
+                }
+              }
+            }
+          },
+          "returns": {
+            "type": "object",
+            "required": ["type", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["string", "number", "boolean", "array", "object"],
+                "description": "Return data type"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the return value"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "if": {
+    "properties": { "connection_type": { "const": "llm" } }
+  },
+  "then": {
+    "properties": {
+      "models": { "type": "array", "minItems": 1 },
+      "default_model": { "type": "string", "minLength": 1 }
+    },
+    "required": ["models", "default_model"]
+  },
+  "else": {
+    "if": {
+      "properties": { "connection_type": { "const": "oauth" } }
+    },
+    "then": {
+      "required": ["oauth_config"],
+      "properties": {
+        "oauth_config": { "type": "object" }
+      }
+    }
+  }
+}
