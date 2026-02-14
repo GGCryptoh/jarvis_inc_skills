@@ -4,6 +4,7 @@
   "skills": [
     { "path": "Official/research/research_web.json", "checksum": "" },
     { "path": "Official/research/weather_cli.json", "checksum": "" },
-    { "path": "Official/creation/image_generate.json", "checksum": "" }
+    { "path": "Official/creation/create_images_openai.json", "checksum": "" },
+    { "path": "Official/creation/create_images_gemini.json", "checksum": "" }
   ]
 }
