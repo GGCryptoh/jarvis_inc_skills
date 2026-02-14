@@ -2,7 +2,7 @@
   "id": "create-images-openai",
   "title": "Image Generation — OpenAI",
   "description": "Generate images using DALL-E 3 (OpenAI)",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Jarvis Inc",
   "category": "creation",
   "icon": "Image",

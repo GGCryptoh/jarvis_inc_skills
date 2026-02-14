@@ -2,7 +2,7 @@
   "id": "research-web",
   "title": "Research Web",
   "description": "Search the web, analyze pages, and fact-check claims using AI-powered research",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Jarvis Inc",
   "category": "research",
   "icon": "Globe",

@@ -4,11 +4,11 @@
   "skills": [
     {
       "path": "Official/research/research_web.json",
-      "checksum": "70d1e6310268aac03bb84431d38e66dac7bf631aa73e20502e9f1cc54c032fd3"
+      "checksum": "a17cc9c86abd3eed24b9c329471525046ef006811d166bba13ea5a06f3f3cd5f"
     },
     {
       "path": "Official/research/weather_cli.json",
-      "checksum": "8525951a4717f31193babfeb98ad6ac927820f977d39795d9d3ff38dd6343999"
+      "checksum": "90b020d5ab4d303c668fb93b1e1ea387df53d8287ad6d955ff96b2151c895441"
     },
     {
       "path": "Official/research/dns_lookup.json",
@@ -24,7 +24,7 @@
     },
     {
       "path": "Official/creation/create_images_openai.json",
-      "checksum": "fa984cda396686c9b0a9db0e407fc752426d1dc3a9c9524014ef6c68df631be9"
+      "checksum": "60372a6d502f2eb20830b1482678af1ffc72c1d91e96e3094c67ef67051c0d2b"
     },
     {
       "path": "Official/creation/create_images_gemini.json",
