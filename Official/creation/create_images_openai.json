@@ -2,7 +2,7 @@
   "id": "create-images-openai",
   "title": "Image Generation — OpenAI",
   "description": "Generate images using DALL-E 3 (OpenAI)",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "Jarvis Inc",
   "category": "creation",
   "icon": "Image",
@@ -20,7 +20,8 @@
     "base_url": "https://api.openai.com/v1",
     "auth_header": "Authorization",
     "auth_prefix": "Bearer",
-    "vault_service": "OpenAI"
+    "vault_service": "OpenAI",
+    "api_model": "dall-e-3"
   },
   "execution_handler": "openai_image_generation",
   "output_type": "image",

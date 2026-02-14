@@ -1,0 +1,39 @@
+{
+  "id": "fetch-webpage-markdown",
+  "title": "Fetch Webpage (Markdown)",
+  "description": "Fetch any webpage as clean markdown via Cloudflare Markdown for Agents — 80% fewer tokens than raw HTML",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "FileText",
+  "tags": ["fetch", "webpage", "markdown", "cloudflare", "scrape", "content"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Cloudflare",
+  "service_type": "fixed",
+  "oauth_config": null,
+  "curl_example": "curl -H 'Accept: text/markdown' https://blog.cloudflare.com/markdown-for-agents/",
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://example.com",
+    "vault_service": "none",
+    "headers": {
+      "Accept": "text/markdown"
+    }
+  },
+  "execution_handler": "fetch_markdown",
+  "output_type": "text",
+  "collateral": true,
+  "commands": [
+    {
+      "name": "fetch_page",
+      "description": "Fetch a webpage and return its content as clean markdown",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "Full URL to fetch (e.g. https://blog.cloudflare.com/some-post)" }
+      ],
+      "returns": { "type": "string", "description": "Markdown content of the page. Includes token count from x-markdown-tokens response header if available." }
+    }
+  ]
+}

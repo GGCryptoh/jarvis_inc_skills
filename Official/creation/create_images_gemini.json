@@ -2,7 +2,7 @@
   "id": "create-images-gemini",
   "title": "Image Generation — Gemini",
   "description": "Generate images using Gemini Nano Banana (Google)",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "Jarvis Inc",
   "category": "creation",
   "icon": "Sparkles",
@@ -14,13 +14,14 @@
   "fixed_service": "Google",
   "service_type": "fixed",
   "oauth_config": null,
-  "curl_example": "curl -s -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-image-generation:generateContent?key=$GEMINI_API_KEY' -H 'Content-Type: application/json' -d '{\"contents\": [{\"parts\": [{\"text\": \"A pixel art office with retro computers\"}]}], \"generationConfig\": {\"responseModalities\": [\"TEXT\", \"IMAGE\"]}}'",
+  "curl_example": "curl -s -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=$GEMINI_API_KEY' -H 'Content-Type: application/json' -d '{\"contents\": [{\"parts\": [{\"text\": \"A pixel art office with retro computers\"}]}], \"generationConfig\": {\"responseModalities\": [\"TEXT\", \"IMAGE\"]}}'",
   "cli_config": null,
   "api_config": {
     "base_url": "https://generativelanguage.googleapis.com/v1beta",
     "auth_header": "x-goog-api-key",
     "auth_prefix": "",
-    "vault_service": "Google"
+    "vault_service": "Google",
+    "api_model": "gemini-2.5-flash-image"
   },
   "execution_handler": "gemini_image_generation",
   "output_type": "image",

@@ -1,0 +1,44 @@
+{
+  "id": "whois-lookup",
+  "title": "WHOIS Lookup",
+  "description": "Look up domain registration details, registrar info, nameservers, and expiration dates via RDAP",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "Search",
+  "tags": ["whois", "domain", "registrar", "dns", "lookup", "rdap"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "RDAP",
+  "service_type": "fixed",
+  "oauth_config": null,
+  "curl_example": "curl https://rdap.org/domain/example.com",
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://rdap.org",
+    "vault_service": "none"
+  },
+  "execution_handler": "whois_lookup",
+  "collateral": false,
+  "output_type": "text",
+  "commands": [
+    {
+      "name": "domain_lookup",
+      "description": "Look up WHOIS/RDAP info for a domain name",
+      "parameters": [
+        { "name": "domain", "type": "string", "required": true, "description": "Domain name to look up (e.g. example.com)" }
+      ],
+      "returns": { "type": "text", "description": "Domain registration details: registrar, status, nameservers, dates" }
+    },
+    {
+      "name": "ip_lookup",
+      "description": "Look up network registration info for an IP address",
+      "parameters": [
+        { "name": "ip", "type": "string", "required": true, "description": "IP address to look up (e.g. 8.8.8.8)" }
+      ],
+      "returns": { "type": "text", "description": "IP network info: CIDR, org name, country, registration dates" }
+    }
+  ]
+}

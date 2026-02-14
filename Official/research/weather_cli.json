@@ -1,8 +1,8 @@
 {
   "id": "weather-cli",
-  "title": "Weather CLI",
+  "title": "Weather",
   "description": "Get real-time weather forecasts using wttr.in CLI — plain text, JSON, or graphical output for any location",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "Jarvis Inc",
   "category": "research",
   "icon": "CloudRain",

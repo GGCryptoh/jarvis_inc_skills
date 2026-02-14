@@ -1,0 +1,52 @@
+{
+  "id": "write-document",
+  "title": "Write Document",
+  "description": "Draft reports, memos, proposals, blog posts, and other professional documents with configurable tone and format",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "creation",
+  "icon": "FileText",
+  "tags": ["writing", "document", "report", "memo", "proposal", "draft"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Opus 4.6", "Claude Sonnet 4.5", "Claude Haiku 4.5", "GPT-5.2", "o3-pro", "o4-mini", "Gemini 3 Pro", "Gemini 2.5 Flash", "DeepSeek R1", "Grok 4"],
+  "default_model": "Claude Sonnet 4.5",
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "commands": [
+    {
+      "name": "draft",
+      "description": "Write a complete document from a topic description and requirements",
+      "system_prompt": "You are a professional writer and document specialist. You produce clear, well-structured, publication-ready documents. Match the requested tone and format precisely. Use proper headings, sections, and formatting. Output in Markdown.",
+      "prompt_template": "Write a {format} about the following topic:\n\n**Topic:** {topic}\n\n**Tone:** {tone}\n**Approximate length:** {length}\n\n{additional_instructions}",
+      "parameters": [
+        { "name": "topic", "type": "string", "required": true, "description": "Subject matter or brief for the document" },
+        { "name": "format", "type": "string", "required": false, "description": "Document format: report, memo, proposal, blog_post, email_draft, whitepaper, executive_summary", "default": "report" },
+        { "name": "tone", "type": "string", "required": false, "description": "Writing tone: professional, casual, academic, persuasive, technical", "default": "professional" },
+        { "name": "length", "type": "string", "required": false, "description": "Target length: short (1-2 paragraphs), medium (1 page), long (2-5 pages)", "default": "medium" },
+        { "name": "additional_instructions", "type": "string", "required": false, "description": "Any extra requirements, constraints, or context", "default": "" }
+      ],
+      "returns": { "type": "string", "description": "Complete formatted document in Markdown" }
+    },
+    {
+      "name": "rewrite",
+      "description": "Rewrite or improve existing text with specific instructions",
+      "system_prompt": "You are an expert editor. Rewrite the provided text according to the instructions. Preserve the core meaning while improving clarity, flow, and impact. Output in Markdown.",
+      "prompt_template": "Rewrite the following text:\n\n---\n{text}\n---\n\n**Instructions:** {instructions}\n**Target tone:** {tone}",
+      "parameters": [
+        { "name": "text", "type": "string", "required": true, "description": "Original text to rewrite" },
+        { "name": "instructions", "type": "string", "required": true, "description": "How to rewrite it (e.g. 'make it more concise', 'add more detail', 'make it persuasive')" },
+        { "name": "tone", "type": "string", "required": false, "description": "Target tone", "default": "professional" }
+      ],
+      "returns": { "type": "string", "description": "Rewritten text" }
+    }
+  ]
+}

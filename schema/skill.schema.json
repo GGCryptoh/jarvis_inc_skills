@@ -160,6 +160,15 @@
         "vault_service": {
           "type": "string",
           "description": "Vault service name to look up the API key (e.g. 'openai', 'stability')"
+        },
+        "api_model": {
+          "type": "string",
+          "description": "Model ID to use in API calls (e.g. 'dall-e-3', 'gemini-2.5-flash-image'). This is the source of truth — executors must read from here, never hardcode."
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Custom HTTP headers to include in every request (e.g. { \"Accept\": \"text/markdown\" }). Merged with auth headers. Skill-defined headers take precedence over defaults."
         }
       },
       "required": ["base_url", "vault_service"]
@@ -180,6 +189,30 @@
       "pattern": "^[a-z][a-z0-9_]*$",
       "description": "Named execution handler function in skillExecutor.ts. Required for api_key skills that call external APIs directly (e.g. 'openai_image_generation', 'gemini_image_generation'). When set, the executor dispatches to this handler instead of the LLM path."
     },
+    "risk_level": {
+      "type": "string",
+      "enum": ["safe", "moderate", "dangerous"],
+      "default": "safe",
+      "description": "Risk classification for skill enablement. 'safe' = normal approval flow. 'moderate' = yellow warning banner on approval card. 'dangerous' = red warning + type-to-confirm gate before enabling. CLI skills default to 'moderate', bash/shell/sudo skills should be 'dangerous'."
+    },
+    "pricing": {
+      "type": "object",
+      "description": "Cost model for this skill's API usage",
+      "properties": {
+        "model": { "type": "string", "enum": ["free", "per_request", "per_token"] },
+        "base_cost_usd": { "type": "number" },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "when": { "type": "object" },
+              "cost_usd": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
     "commands": {
       "type": "array",
       "minItems": 1,
@@ -187,7 +220,6 @@
       "items": {
         "type": "object",
         "required": ["name", "description", "parameters", "returns"],
-        "additionalProperties": false,
         "properties": {
           "name": {
             "type": "string",
@@ -252,6 +284,52 @@
               "media_type": {
                 "type": "string",
                 "description": "MIME type of the returned content (e.g. 'image/png', 'audio/mp3', 'application/json'). Used by UI to render results correctly."
+              }
+            }
+          },
+          "system_prompt": {
+            "type": "string",
+            "description": "System prompt for LLM execution. Overrides the default generic system prompt. Supports {param} interpolation."
+          },
+          "prompt_template": {
+            "type": "string",
+            "description": "User message template for LLM execution. Supports {param} interpolation from command parameters."
+          },
+          "request": {
+            "type": "object",
+            "description": "Declarative HTTP request config. When present, the generic executor handles this command instead of a hardcoded handler.",
+            "properties": {
+              "method": { "type": "string", "enum": ["GET", "POST", "PUT", "DELETE"], "default": "GET" },
+              "path": { "type": "string", "description": "Appended to api_config.base_url. Supports {param_name} interpolation. Special: {api_model}, {api_key}." },
+              "query": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Static + interpolated query params" },
+              "headers": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Additional HTTP headers for this command" },
+              "body": { "description": "JSON body template. String values with {param} get interpolated. Null for GET." }
+            },
+            "required": ["method", "path"]
+          },
+          "response": {
+            "type": "object",
+            "description": "How to parse the API response.",
+            "properties": {
+              "passthrough": { "type": "boolean", "default": false, "description": "Skip extraction, return raw response as-is" },
+              "passthrough_to_llm": { "type": "boolean", "default": false, "description": "Send raw response to LLM for formatting (requires passthrough:true)" },
+              "extract": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Named fields to extract via dot-path (e.g. 'current_condition[0].temp_F')" },
+              "extract_raw": { "type": "string", "description": "Single dot-path for the entire result (e.g. binary data)" },
+              "error_path": { "type": "string", "description": "Dot-path to check for API error message" }
+            }
+          },
+          "output_template": {
+            "type": "string",
+            "description": "Markdown template with {field} placeholders from response.extract"
+          },
+          "post_processors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": { "type": "string", "description": "Handler name: upload_image, estimate_cost" },
+                "config": { "type": "object", "description": "Handler-specific configuration" }
               }
             }
           }
