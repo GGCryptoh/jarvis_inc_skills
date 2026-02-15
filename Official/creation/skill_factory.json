@@ -2,7 +2,7 @@
   "id": "skill-factory",
   "title": "Skill Factory",
   "description": "Allows the CEO to create new personal skills on demand — code tools, LLM prompts, or API integrations. Enable this to let your CEO build custom capabilities for the organization.",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "Jarvis Inc",
   "category": "creation",
   "icon": "Sparkles",
