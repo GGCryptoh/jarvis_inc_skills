@@ -39,6 +39,10 @@
       "checksum": "92187ea6a2c600d98ae72be0256daa63a28fa49ba82c17de8dd7a6707c5be013"
     },
     {
+      "path": "Official/creation/skill_factory.json",
+      "checksum": "8827cadb0d10178ebaabbccecdb4f51cfd4b12979fac0626d5d6d9ee5e060ca8"
+    },
+    {
       "path": "Official/analysis/summarize_document.json",
       "checksum": "04e5c13cd63f6863ae7da5ca992c186ca468d8b9d18265caaff6fbf53b855c92"
     },

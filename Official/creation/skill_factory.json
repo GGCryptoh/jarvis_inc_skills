@@ -1,0 +1,41 @@
+{
+  "id": "skill-factory",
+  "title": "Skill Factory",
+  "description": "Allows the CEO to create new personal skills on demand — code tools, LLM prompts, or API integrations. Enable this to let your CEO build custom capabilities for the organization.",
+  "version": "1.0.0",
+  "author": "Jarvis Inc",
+  "category": "creation",
+  "icon": "Sparkles",
+  "tags": ["meta", "skill-creation", "automation", "tools", "factory"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "risk_level": "moderate",
+  "commands": [
+    {
+      "name": "create_skill",
+      "description": "Create a new personal skill — code tool, LLM prompt, or API integration",
+      "parameters": [
+        { "name": "id", "type": "string", "required": true, "description": "Unique kebab-case skill ID (e.g. 'random-name-generator')" },
+        { "name": "title", "type": "string", "required": true, "description": "Human-readable skill name" },
+        { "name": "description", "type": "string", "required": true, "description": "What this skill does (10-200 chars)" },
+        { "name": "category", "type": "string", "required": true, "description": "Skill category: creation, research, communication, or analysis" },
+        { "name": "commands", "type": "array", "required": true, "description": "Array of command objects with name, description, and parameters" },
+        { "name": "connection_type", "type": "string", "required": false, "description": "none (code skill), llm (prompt skill), or api_key (API skill)", "default": "none" },
+        { "name": "system_prompt", "type": "string", "required": false, "description": "LLM system prompt for llm-type skills" },
+        { "name": "handler_code", "type": "string", "required": false, "description": "TypeScript handler code for code-type skills" }
+      ],
+      "returns": { "type": "string", "description": "Confirmation message with skill ID and status" }
+    }
+  ]
+}
