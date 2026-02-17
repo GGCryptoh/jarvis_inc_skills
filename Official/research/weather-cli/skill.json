@@ -1,0 +1,86 @@
+{
+  "id": "weather-cli",
+  "title": "Weather",
+  "description": "Get real-time weather forecasts using wttr.in CLI — plain text, JSON, or graphical output for any location",
+  "version": "0.0.3",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "CloudRain",
+  "tags": ["weather", "forecast", "cli", "temperature", "wttr"],
+  "status": "available",
+  "connection_type": "cli",
+  "risk_level": "safe",
+  "models": null,
+  "default_model": null,
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": "curl wttr.in/Philadelphia?format=j1",
+  "cli_config": {
+    "binary": "curl",
+    "install_command": "apt-get install -y curl",
+    "version_check": "curl --version"
+  },
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "handler_runtime": null,
+  "files": null,
+  "commands": [
+    {
+      "name": "get_forecast",
+      "description": "Get a weather forecast for a location. Returns structured JSON with current conditions and 3-day forecast.",
+      "parameters": [
+        { "name": "location", "type": "string", "required": true, "description": "City name, airport code, or coordinates (e.g. 'Philadelphia', 'JFK', '40.7,-74.0')" },
+        { "name": "days", "type": "number", "required": false, "description": "Number of forecast days (0-3)", "default": 3 },
+        { "name": "format", "type": "string", "required": false, "description": "Output format: 'json' for structured data, 'text' for plain text, 'oneline' for a single summary line", "default": "json", "enum": ["json", "text", "oneline"] }
+      ],
+      "returns": { "type": "object", "description": "Weather data with current conditions (temp, humidity, wind, description) and daily forecasts with min/max temp, precipitation chance, and hourly breakdowns" },
+      "cli_command_template": {
+        "url_template": "https://wttr.in/{location}?format=j1",
+        "method": "GET",
+        "response_type": "json"
+      },
+      "response": {
+        "extract": {
+          "current_temp_f": "current_condition[0].temp_F",
+          "current_temp_c": "current_condition[0].temp_C",
+          "feels_like_f": "current_condition[0].FeelsLikeF",
+          "description": "current_condition[0].weatherDesc[0].value",
+          "humidity": "current_condition[0].humidity",
+          "wind_mph": "current_condition[0].windspeedMiles",
+          "wind_dir": "current_condition[0].winddir16Point",
+          "location": "nearest_area[0].areaName[0].value"
+        }
+      },
+      "output_template": "**Weather for {location}**\n\nCurrently: {description}\nTemperature: {current_temp_f}F ({current_temp_c}C) — Feels like {feels_like_f}F\nHumidity: {humidity}%\nWind: {wind_mph} mph {wind_dir}"
+    },
+    {
+      "name": "get_current",
+      "description": "Get current weather conditions only (no forecast). Fast, single-line response.",
+      "parameters": [
+        { "name": "location", "type": "string", "required": true, "description": "City name, airport code, or coordinates" }
+      ],
+      "returns": { "type": "string", "description": "Single-line current weather summary, e.g. '+42F Philadelphia, United States'" },
+      "cli_command_template": {
+        "url_template": "https://wttr.in/{location}?format=%C+%t+%l",
+        "method": "GET",
+        "response_type": "text"
+      }
+    },
+    {
+      "name": "get_moon_phase",
+      "description": "Get current moon phase information for a location",
+      "parameters": [
+        { "name": "location", "type": "string", "required": true, "description": "City name or coordinates" }
+      ],
+      "returns": { "type": "string", "description": "ASCII art moon phase with phase name and illumination percentage" },
+      "cli_command_template": {
+        "url_template": "https://wttr.in/{location}?format=%m",
+        "method": "GET",
+        "response_type": "text"
+      }
+    }
+  ]
+}
