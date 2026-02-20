@@ -1,0 +1,63 @@
+{
+  "id": "generate-code",
+  "title": "Generate Code",
+  "description": "Write, review, debug, and explain code in multiple programming languages",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "creation",
+  "icon": "Code",
+  "tags": ["code", "programming", "development", "debug", "review"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Opus 4.6", "Claude Sonnet 4.5", "Claude Haiku 4.5", "GPT-5.2", "o3-pro", "o4-mini", "Gemini 3 Pro", "Gemini 2.5 Flash", "DeepSeek R1", "Grok 4"],
+  "default_model": "Claude Sonnet 4.5",
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "commands": [
+    {
+      "name": "generate",
+      "description": "Generate code from a natural language description",
+      "system_prompt": "You are an expert software engineer. Write clean, well-documented, production-quality code. Include comments for complex logic. Follow language-specific conventions and best practices. Always include error handling where appropriate. Output code in a fenced code block with the language identifier.",
+      "prompt_template": "Write {language} code for the following task:\n\n{task}\n\n{context}",
+      "parameters": [
+        { "name": "task", "type": "string", "required": true, "description": "What the code should do" },
+        { "name": "language", "type": "string", "required": false, "description": "Programming language (typescript, python, rust, go, etc.)", "default": "typescript" },
+        { "name": "context", "type": "string", "required": false, "description": "Additional context: existing code, frameworks, constraints", "default": "" }
+      ],
+      "returns": { "type": "string", "description": "Generated code with explanation" }
+    },
+    {
+      "name": "review",
+      "description": "Review code for bugs, security issues, and improvements",
+      "system_prompt": "You are a senior code reviewer. Analyze the code thoroughly for: bugs, security vulnerabilities, performance issues, readability problems, and missing error handling. Be specific — cite line numbers and provide corrected code snippets. Categorize findings as: critical, warning, or suggestion.",
+      "prompt_template": "Review this {language} code:\n\n```{language}\n{code}\n```\n\n{focus_areas}",
+      "parameters": [
+        { "name": "code", "type": "string", "required": true, "description": "Code to review" },
+        { "name": "language", "type": "string", "required": false, "description": "Programming language", "default": "typescript" },
+        { "name": "focus_areas", "type": "string", "required": false, "description": "Specific areas to focus on (e.g. 'security', 'performance')", "default": "" }
+      ],
+      "returns": { "type": "string", "description": "Code review with categorized findings" }
+    },
+    {
+      "name": "debug",
+      "description": "Analyze code and error messages to identify and fix bugs",
+      "system_prompt": "You are a debugging expert. Analyze the code and error to identify the root cause. Explain why the bug occurs, then provide the corrected code. Be precise and concise.",
+      "prompt_template": "Debug this {language} code:\n\n```{language}\n{code}\n```\n\n**Error:** {error}\n\n{context}",
+      "parameters": [
+        { "name": "code", "type": "string", "required": true, "description": "Code with the bug" },
+        { "name": "error", "type": "string", "required": true, "description": "Error message or description of unexpected behavior" },
+        { "name": "language", "type": "string", "required": false, "description": "Programming language", "default": "typescript" },
+        { "name": "context", "type": "string", "required": false, "description": "Additional context about the environment or expected behavior", "default": "" }
+      ],
+      "returns": { "type": "string", "description": "Root cause analysis and corrected code" }
+    }
+  ]
+}

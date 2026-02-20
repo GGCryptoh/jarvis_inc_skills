@@ -1,0 +1,60 @@
+{
+  "id": "dns-lookup",
+  "title": "DNS Lookup",
+  "description": "Query DNS records for a domain — A, AAAA, MX, NS, TXT, CNAME, SOA and more via Cloudflare DoH",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "Globe",
+  "tags": ["dns", "domain", "records", "mx", "nameserver", "lookup"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Cloudflare",
+  "service_type": "fixed",
+  "oauth_config": null,
+  "curl_example": "curl -H 'accept: application/dns-json' 'https://cloudflare-dns.com/dns-query?name=example.com&type=A'",
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://cloudflare-dns.com/dns-query",
+    "vault_service": "none",
+    "headers": {
+      "Accept": "application/dns-json"
+    }
+  },
+  "execution_handler": "dns_lookup",
+  "collateral": false,
+  "output_type": "text",
+  "handler_runtime": "typescript",
+  "files": ["handlers/full_report.ts"],
+  "commands": [
+    {
+      "name": "query",
+      "description": "Query a specific DNS record type for a domain",
+      "parameters": [
+        { "name": "domain", "type": "string", "required": true, "description": "Domain name to query (e.g. example.com)" },
+        { "name": "type", "type": "string", "required": false, "description": "Record type: A, AAAA, MX, NS, TXT, CNAME, SOA, SRV, CAA, PTR", "default": "A" }
+      ],
+      "returns": { "type": "text", "description": "DNS records matching the query" },
+      "request": {
+        "method": "GET",
+        "path": "",
+        "query": { "name": "{domain}", "type": "{type}" }
+      },
+      "response": {
+        "extract": { "records": "Answer[*]" }
+      },
+      "output_template": "**{domain} {type} Records:**\n{records}"
+    },
+    {
+      "name": "full_report",
+      "description": "Get all common DNS records for a domain (A, AAAA, MX, NS, TXT, SOA)",
+      "parameters": [
+        { "name": "domain", "type": "string", "required": true, "description": "Domain name to query" }
+      ],
+      "returns": { "type": "text", "description": "Complete DNS report with all record types" },
+      "handler_file": "handlers/full_report.ts"
+    }
+  ]
+}

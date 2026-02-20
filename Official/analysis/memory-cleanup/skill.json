@@ -1,0 +1,52 @@
+{
+  "id": "memory-cleanup",
+  "title": "Memory Cleanup",
+  "description": "LLM-powered organizational memory maintenance — deduplicates, merges related memories, re-scores importance, and prunes low-value entries. Produces an audit report.",
+  "version": "1.0.0",
+  "author": "Jarvis Inc",
+  "category": "analysis",
+  "icon": "BrainCircuit",
+  "tags": ["memory", "cleanup", "maintenance", "consolidation", "dedup"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Sonnet 4.5", "Claude Haiku 4.5", "GPT-5.2", "Gemini 2.5 Flash"],
+  "default_model": "Claude Haiku 4.5",
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "moderate",
+  "permissions": [],
+  "default_schedule": {
+    "frequency": "daily",
+    "run_at_time": "03:00",
+    "command": "cleanup",
+    "params": {}
+  },
+  "commands": [
+    {
+      "name": "cleanup",
+      "description": "Analyze all org memories, deduplicate, merge related entries, re-score importance, prune low-value items. Returns audit report.",
+      "parameters": [
+        {
+          "name": "mode",
+          "type": "string",
+          "required": false,
+          "default": "smart",
+          "description": "Cleanup mode: 'smart' (LLM-powered full analysis), 'consolidate' (just run daily consolidation), 'report' (dry run — show what would change without modifying)"
+        }
+      ],
+      "returns": {
+        "type": "string",
+        "description": "Markdown audit report with cleanup statistics"
+      },
+      "system_prompt": "You are an AI memory management system. Your job is to analyze organizational memories and identify: (1) exact or near-duplicate entries that should be merged, (2) related memories that would be more useful combined, (3) entries with incorrect importance scores, (4) low-value or outdated entries that should be pruned. Be conservative — when in doubt, keep the memory. Founder profile memories (category: founder_profile) are HIGH priority and should rarely be pruned, only deduplicated.",
+      "prompt_template": "Analyze these organizational memories and return a JSON cleanup plan:\n\n{memories}\n\nReturn ONLY valid JSON in this exact format:\n{\"merge\": [{\"keep_id\": \"id1\", \"remove_ids\": [\"id2\", \"id3\"], \"merged_content\": \"combined text\", \"new_importance\": 7}], \"rescore\": [{\"id\": \"id1\", \"old_importance\": 5, \"new_importance\": 8, \"reason\": \"why\"}], \"prune\": [{\"id\": \"id1\", \"reason\": \"duplicate of id2\"}], \"summary\": \"Brief audit summary\"}"
+    }
+  ]
+}

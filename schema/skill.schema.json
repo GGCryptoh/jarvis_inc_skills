@@ -169,6 +169,10 @@
           "type": "object",
           "additionalProperties": { "type": "string" },
           "description": "Custom HTTP headers to include in every request (e.g. { \"Accept\": \"text/markdown\" }). Merged with auth headers. Skill-defined headers take precedence over defaults."
+        },
+        "auth_in_query": {
+          "type": ["string", "null"],
+          "description": "Query param name for API key (e.g. 'key'). When set, key goes in URL query string instead of Authorization header. Used by APIs like Gemini that use ?key=xxx."
         }
       },
       "required": ["base_url", "vault_service"]
@@ -187,13 +191,44 @@
     "execution_handler": {
       "type": ["string", "null"],
       "pattern": "^[a-z][a-z0-9_]*$",
-      "description": "Named execution handler function in skillExecutor.ts. Required for api_key skills that call external APIs directly (e.g. 'openai_image_generation', 'gemini_image_generation'). When set, the executor dispatches to this handler instead of the LLM path."
+      "description": "DEPRECATED: Prefer declarative request/response blocks in commands. Kept as fallback for complex multi-step integrations that can't be expressed declaratively. Named execution handler function in skillExecutor.ts."
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["network", "filesystem_read", "filesystem_write", "shell_exec", "sudo", "docker_exec"]
+      },
+      "description": "Required permissions. 'shell_exec' and above trigger danger warnings in UI. Skills running in Docker sidecar are sandboxed."
     },
     "risk_level": {
       "type": "string",
       "enum": ["safe", "moderate", "dangerous"],
       "default": "safe",
       "description": "Risk classification for skill enablement. 'safe' = normal approval flow. 'moderate' = yellow warning banner on approval card. 'dangerous' = red warning + type-to-confirm gate before enabling. CLI skills default to 'moderate', bash/shell/sudo skills should be 'dangerous'."
+    },
+    "handler_runtime": {
+      "type": ["string", "null"],
+      "enum": ["typescript", "python", "bash", null],
+      "default": null,
+      "description": "Runtime for handler files. null = declarative-only (no code). 'typescript' = Node.js dynamic import, 'python' = child_process with JSON stdin/stdout, 'bash' = child_process with env vars."
+    },
+    "files": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "List of files in the skill package directory (relative to skill dir). Used by installer to download all files. e.g. ['handlers/query.ts', 'handlers/generate.ts', 'scripts/process.py']"
+    },
+    "default_schedule": {
+      "type": "object",
+      "description": "Default schedule for automatic execution. Users can override.",
+      "properties": {
+        "frequency": { "type": "string", "enum": ["daily", "weekly", "monthly"] },
+        "run_at_time": { "type": "string", "pattern": "^\\d{2}:\\d{2}$", "description": "HH:MM in local time" },
+        "run_on_day": { "type": "integer", "description": "Day of week (0=Sun) for weekly, day of month for monthly" },
+        "command": { "type": "string", "description": "Command name to execute" },
+        "params": { "type": "object", "description": "Parameters to pass to the command" }
+      },
+      "required": ["frequency", "command"]
     },
     "pricing": {
       "type": "object",
@@ -303,7 +338,9 @@
               "path": { "type": "string", "description": "Appended to api_config.base_url. Supports {param_name} interpolation. Special: {api_model}, {api_key}." },
               "query": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Static + interpolated query params" },
               "headers": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Additional HTTP headers for this command" },
-              "body": { "description": "JSON body template. String values with {param} get interpolated. Null for GET." }
+              "body": { "description": "JSON body template. String values with {param} get interpolated. Null for GET." },
+              "response_format": { "type": "string", "enum": ["json", "text", "binary"], "default": "json", "description": "Expected response format. 'text' calls resp.text(), 'binary' calls resp.arrayBuffer(), 'json' (default) calls resp.json()." },
+              "proxy": { "type": "boolean", "default": false, "description": "Route through gateway CORS proxy (/api/fetch-proxy). Required for browser-side fetches to arbitrary domains." }
             },
             "required": ["method", "path"]
           },
@@ -315,7 +352,8 @@
               "passthrough_to_llm": { "type": "boolean", "default": false, "description": "Send raw response to LLM for formatting (requires passthrough:true)" },
               "extract": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Named fields to extract via dot-path (e.g. 'current_condition[0].temp_F')" },
               "extract_raw": { "type": "string", "description": "Single dot-path for the entire result (e.g. binary data)" },
-              "error_path": { "type": "string", "description": "Dot-path to check for API error message" }
+              "error_path": { "type": "string", "description": "Dot-path to check for API error message" },
+              "image_field": { "type": "string", "description": "Dot-path to base64 image data in response. Auto-uploads to Supabase Storage and sets {image_url} template variable." }
             }
           },
           "output_template": {
@@ -332,6 +370,33 @@
                 "config": { "type": "object", "description": "Handler-specific configuration" }
               }
             }
+          },
+          "multi_request": {
+            "type": "object",
+            "description": "Fan-out pattern: execute the same request template multiple times with different values. Results merged per merge_strategy.",
+            "properties": {
+              "iterate_over": { "type": "array", "items": { "type": "string" }, "description": "Array of values to iterate over" },
+              "iterate_param": { "type": "string", "description": "Parameter name to substitute with each iteration value" },
+              "merge_strategy": { "type": "string", "enum": ["concat", "object", "array"], "default": "concat", "description": "'concat' = merge text outputs, 'object' = merge into keyed object, 'array' = collect into array" }
+            },
+            "required": ["iterate_over", "iterate_param"]
+          },
+          "cli_command_template": {
+            "type": "object",
+            "description": "Declarative execution template for CLI/HTTP skills. For direct HTTP: set url_template + method. For gateway-executed commands: set gateway_exec + command_template.",
+            "properties": {
+              "url_template": { "type": "string", "description": "URL template with {param} interpolation (e.g. 'https://wttr.in/{location}?format=j1')" },
+              "method": { "type": "string", "enum": ["GET", "POST", "PUT", "DELETE"], "default": "GET" },
+              "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+              "response_type": { "type": "string", "enum": ["json", "text"], "default": "json" },
+              "gateway_exec": { "type": "boolean", "default": false, "description": "Route through gateway /exec-cli endpoint for actual shell execution" },
+              "command_template": { "type": "string", "description": "Shell command template with {param} interpolation. Only used when gateway_exec is true." },
+              "timeout": { "type": "number", "default": 30, "description": "Execution timeout in seconds" }
+            }
+          },
+          "handler_file": {
+            "type": ["string", "null"],
+            "description": "Path to handler file relative to skill directory (e.g. 'handlers/query.ts'). When present, gateway executes this file instead of declarative request or hardcoded handler."
           }
         }
       }

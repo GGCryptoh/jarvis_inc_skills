@@ -1,0 +1,47 @@
+{
+  "id": "analyze-image",
+  "title": "Analyze Image",
+  "description": "Describe, extract text (OCR), and analyze images using AI vision models",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "analysis",
+  "icon": "Eye",
+  "tags": ["image", "vision", "ocr", "describe", "analyze"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Opus 4.6", "Claude Sonnet 4.5", "GPT-5.2", "Gemini 3 Pro", "Gemini 2.5 Flash"],
+  "default_model": "Claude Sonnet 4.5",
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "commands": [
+    {
+      "name": "describe",
+      "description": "Generate a detailed description of an image",
+      "system_prompt": "You are a vision analysis expert. Describe images in thorough detail: subjects, objects, colors, composition, text, context, mood, and any notable elements. Be precise and observational, not interpretive unless asked.",
+      "prompt_template": "Describe this image in detail:\n\n{image_url}\n\n{instructions}",
+      "parameters": [
+        { "name": "image_url", "type": "string", "required": true, "description": "URL of the image to analyze" },
+        { "name": "instructions", "type": "string", "required": false, "description": "Specific aspects to focus on or questions about the image", "default": "" }
+      ],
+      "returns": { "type": "string", "description": "Detailed image description" }
+    },
+    {
+      "name": "extract_text",
+      "description": "Extract all readable text from an image (OCR)",
+      "system_prompt": "You are an OCR specialist. Extract ALL readable text from the image, preserving layout and structure as much as possible. Use Markdown formatting to represent tables, lists, and headings. If text is partially obscured, indicate with [unclear].",
+      "prompt_template": "Extract all text from this image:\n\n{image_url}",
+      "parameters": [
+        { "name": "image_url", "type": "string", "required": true, "description": "URL of the image containing text" }
+      ],
+      "returns": { "type": "string", "description": "Extracted text in Markdown format" }
+    }
+  ]
+}
