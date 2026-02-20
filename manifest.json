@@ -1,7 +1,7 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "format": "mixed",
-  "updated_at": "2026-02-16T00:00:00Z",
+  "updated_at": "2026-02-20T00:00:00Z",
   "skills": [
     {
       "path": "Official/research/research_web.json",
@@ -9,100 +9,60 @@
       "checksum": "a17cc9c86abd3eed24b9c329471525046ef006811d166bba13ea5a06f3f3cd5f"
     },
     {
-      "path": "Official/research/weather_cli.json",
-      "type": "file",
-      "checksum": "90b020d5ab4d303c668fb93b1e1ea387df53d8287ad6d955ff96b2151c895441"
-    },
-    {
       "path": "Official/research/weather-cli",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/research/dns_lookup.json",
-      "type": "file",
-      "checksum": "b36d579a1bab125ebcfa4c9aa65c59148eb640ee3eb87984080c153189bb5967"
+      "checksum": "5445c782da6d1fead1e95f1bef30ead5ce21b0108b066f709989391690898aa5"
     },
     {
       "path": "Official/research/dns-lookup",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/full_report.ts"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/research/fetch_webpage_markdown.json",
-      "type": "file",
-      "checksum": "873d8141ddcd268b415428b2a5426606f76979bfa6cf5e39c81cfcd350c27984"
+      "checksum": "9efdc4227bc3a99f804c144737af48aa1678e93fe77dda6d35546cf116b7714b"
     },
     {
       "path": "Official/research/fetch-webpage-markdown",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/research/whois_lookup.json",
-      "type": "file",
-      "checksum": "ed0f2335e7934a376fffd1a3bd3b99f707c75959897aea743befed04742c40fc"
+      "checksum": "7b0524cea1eef6e682c37ba12a931a0a010a4dd763f419685efdb4dfbf825331"
     },
     {
       "path": "Official/research/whois-lookup",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/creation/create_images_openai.json",
-      "type": "file",
-      "checksum": "60372a6d502f2eb20830b1482678af1ffc72c1d91e96e3094c67ef67051c0d2b"
+      "checksum": "9719985780f1c709e6b8575591d4ed2cc4b0c3cb6a993ea58b37040c013fe8fd"
     },
     {
       "path": "Official/creation/create-images-openai",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/creation/create_images_gemini.json",
-      "type": "file",
-      "checksum": "8d0e182104b72b3e67cde8d8a9b83185b6466c052300a47e7301f027b0a38212"
+      "checksum": "f68742173c1ef1b208892cb61d0c8143374d5170765466223f14ef07fbfbf2b1"
     },
     {
       "path": "Official/creation/create-images-gemini",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/generate.ts"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/creation/write_document.json",
-      "type": "file",
-      "checksum": "db55059fcb0261ab1672a7081e058f63a6de847e9326128d5ab20a9821234778"
+      "checksum": "6d9c5656eec5578d05c252b921cb01938e44cca1cb3ccbc05f77ddf0caccf79b"
     },
     {
       "path": "Official/creation/write-document",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/creation/generate_code.json",
-      "type": "file",
-      "checksum": "92187ea6a2c600d98ae72be0256daa63a28fa49ba82c17de8dd7a6707c5be013"
+      "checksum": "db55059fcb0261ab1672a7081e058f63a6de847e9326128d5ab20a9821234778"
     },
     {
       "path": "Official/creation/generate-code",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
+      "checksum": "92187ea6a2c600d98ae72be0256daa63a28fa49ba82c17de8dd7a6707c5be013"
     },
     {
       "path": "Official/creation/skill_factory.json",
@@ -110,40 +70,32 @@
       "checksum": "f7497c70d283111dd094e6a063655c78cba355347c2aa1fa132b6e899f6c91fc"
     },
     {
-      "path": "Official/analysis/summarize_document.json",
-      "type": "file",
-      "checksum": "04e5c13cd63f6863ae7da5ca992c186ca468d8b9d18265caaff6fbf53b855c92"
-    },
-    {
       "path": "Official/analysis/summarize-document",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/analysis/translate_text.json",
-      "type": "file",
-      "checksum": "485236db14587fff48f7bb738b152657dad197553c5573cb58cad5abfeecdae3"
+      "checksum": "04e5c13cd63f6863ae7da5ca992c186ca468d8b9d18265caaff6fbf53b855c92"
     },
     {
       "path": "Official/analysis/translate-text",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
-    },
-    {
-      "path": "Official/analysis/analyze_image.json",
-      "type": "file",
-      "checksum": "7da4e04e3392630bfc91d021fe77c004d75719976d330596277a6ae19482db0f"
+      "checksum": "485236db14587fff48f7bb738b152657dad197553c5573cb58cad5abfeecdae3"
     },
     {
       "path": "Official/analysis/analyze-image",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "pending"
+      "checksum": "7da4e04e3392630bfc91d021fe77c004d75719976d330596277a6ae19482db0f"
+    },
+    {
+      "path": "Official/analysis/memory-cleanup",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json"],
+      "checksum": "2460b8b49eedc19dc1565124efc721dae49e087433a7bd7f880f2cc3b8744657"
     }
   ]
 }
