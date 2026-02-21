@@ -316,37 +316,64 @@ For skills with `connection_type: "api_key"`, the executor looks up the API key 
 
 ---
 
+## Developer Tools
+
+Built-in scripts for building, validating, and testing skills locally -- no Jarvis Inc stack required.
+
+```bash
+npm install                   # one-time setup (installs ajv, tsx)
+```
+
+| Command | Description |
+|---------|-------------|
+| `node scripts/scaffold.mjs <id> [options]` | Scaffold a new skill with skeleton + handler stub |
+| `node scripts/validate.mjs [path]` | Validate skill(s) against JSON Schema + structural checks |
+| `node scripts/test-handler.mjs <id> <cmd> [--params '{}']` | Execute a handler locally (mirrors gateway execution) |
+| `node scripts/update-manifest.mjs` | Regenerate `manifest.json` with SHA-256 checksums |
+
+Starter templates in `templates/` -- copy one to get going fast. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full developer guide.
+
+---
+
 ## Schema Reference
 
 All `skill.json` files must validate against `schema/skill.schema.json`.
 
 ```bash
-# Validate with ajv-cli (Node.js)
-npx ajv-cli validate -s schema/skill.schema.json -d "Official/**/skill.json"
+# With built-in validator (recommended)
+node scripts/validate.mjs Official/{category}/{skill-id}/
 
-# Validate with check-jsonschema (Python)
-check-jsonschema --schemafile schema/skill.schema.json Official/**/skill.json
+# Validate all skills at once
+node scripts/validate.mjs
 ```
 
 ---
 
 ## Adding a New Skill
 
-1. **Create the directory:**
-   ```
-   Official/{category}/{skill-id}/
+1. **Scaffold** (or create manually):
+   ```bash
+   node scripts/scaffold.mjs my-skill --runtime typescript --connection api_key --category research
    ```
 
-2. **Write `skill.json`** with required fields (`id`, `title`, `description`, `version`, `author`, `category`, `icon`, `connection_type`, `commands`). Set `handler_runtime` and `files` if adding handlers.
+2. **Edit `skill.json`** -- fill in title, description, author, parameters, and handler config.
 
 3. **Write handler files** (if needed) in `handlers/`. Set `handler_file` on each command that uses one.
 
-4. **Validate** against the schema:
+4. **Validate:**
    ```bash
-   npx ajv-cli validate -s schema/skill.schema.json -d Official/{category}/{skill-id}/skill.json
+   node scripts/validate.mjs Official/{category}/{skill-id}/
    ```
 
-5. **Update `manifest.json`** -- add an entry with the skill path, type `"directory"`, file list, and checksum.
+5. **Test** your handler locally:
+   ```bash
+   node scripts/test-handler.mjs my-skill command_name --params '{"key":"value"}'
+   ```
+
+6. **Update `manifest.json`:**
+   ```bash
+   node scripts/update-manifest.mjs
+   ```
 
 6. **Test** in the dashboard via the Skill Test Dialog (Skills page > click Test on your skill).
 

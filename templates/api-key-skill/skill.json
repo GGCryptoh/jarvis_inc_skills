@@ -1,0 +1,50 @@
+{
+  "id": "example-api",
+  "title": "Example API Skill",
+  "description": "TODO: Describe what this skill does — calls an external API with an API key (10-500 chars)",
+  "version": "0.1.0",
+  "author": "TODO: Your Name",
+  "category": "research",
+  "icon": "Globe",
+  "tags": ["example", "api"],
+  "status": "available",
+  "connection_type": "api_key",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "TODO: Service Name",
+  "service_type": "fixed",
+  "oauth_config": null,
+  "curl_example": "curl -H 'Authorization: Bearer YOUR_KEY' 'https://api.example.com/endpoint?q=test'",
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://api.example.com",
+    "vault_service": "TODO_service_name",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "handler_runtime": "typescript",
+  "files": ["handlers/example.ts"],
+  "commands": [
+    {
+      "name": "query",
+      "description": "TODO: Describe what this command does",
+      "handler_file": "handlers/example.ts",
+      "parameters": [
+        {
+          "name": "input",
+          "type": "string",
+          "required": true,
+          "description": "TODO: Describe this parameter"
+        }
+      ],
+      "returns": {
+        "type": "string",
+        "description": "TODO: Describe what this returns"
+      }
+    }
+  ]
+}

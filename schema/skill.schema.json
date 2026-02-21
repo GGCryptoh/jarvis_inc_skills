@@ -61,8 +61,8 @@
     },
     "connection_type": {
       "type": "string",
-      "enum": ["llm", "oauth", "api_key", "cli", "none"],
-      "description": "How the skill connects to its underlying service. 'llm' = uses an AI model, 'oauth' = OAuth 2.0 flow, 'api_key' = API key authentication, 'cli' = command-line tool, 'none' = no external connection"
+      "enum": ["llm", "oauth", "api_key", "cli", "channel", "none"],
+      "description": "How the skill connects to its underlying service. 'llm' = uses an AI model, 'oauth' = OAuth 2.0 flow, 'api_key' = API key authentication, 'cli' = command-line tool, 'channel' = pulls credentials from notification_channels table, 'none' = no external connection"
     },
     "models": {
       "type": ["array", "null"],
@@ -81,8 +81,12 @@
     },
     "service_type": {
       "type": ["string", "null"],
-      "enum": ["fixed", "configurable", null],
-      "description": "'fixed' = hardcoded to one service, 'configurable' = user can choose provider, null = not applicable"
+      "enum": ["fixed", "configurable", "channel", null],
+      "description": "'fixed' = hardcoded to one service, 'configurable' = user can choose provider, 'channel' = credential from notification_channels table, null = not applicable"
+    },
+    "channel_type": {
+      "type": ["string", "null"],
+      "description": "Notification channel type for channel connection skills (e.g. 'telegram', 'slack'). Used when connection_type is 'channel'."
     },
     "oauth_config": {
       "type": ["object", "null"],

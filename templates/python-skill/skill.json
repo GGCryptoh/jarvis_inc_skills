@@ -1,0 +1,48 @@
+{
+  "id": "example-python",
+  "title": "Example Python Skill",
+  "description": "TODO: Describe what this skill does — uses a Python handler with API key auth (10-500 chars)",
+  "version": "0.1.0",
+  "author": "TODO: Your Name",
+  "category": "creation",
+  "icon": "Sparkles",
+  "tags": ["example", "python"],
+  "status": "available",
+  "connection_type": "api_key",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "TODO: Service Name",
+  "service_type": "fixed",
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://api.example.com",
+    "vault_service": "TODO_service_name"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "handler_runtime": "python",
+  "files": ["handlers/example.py"],
+  "commands": [
+    {
+      "name": "generate",
+      "description": "TODO: Describe what this command does",
+      "handler_file": "handlers/example.py",
+      "parameters": [
+        {
+          "name": "prompt",
+          "type": "string",
+          "required": true,
+          "description": "TODO: Describe this parameter"
+        }
+      ],
+      "returns": {
+        "type": "string",
+        "description": "TODO: Describe what this returns"
+      }
+    }
+  ]
+}

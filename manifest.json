@@ -116,7 +116,7 @@
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/send_message.ts", "handlers/get_updates.ts"],
-      "checksum": "347400925ae8a87db1b87a1387e133258d9febf1393813e739fc924149816b8e"
+      "checksum": "53dec6084dfadfb3e548112c4cadad626d2454628b097bb82481e1e18ac6e19f"
     }
   ]
 }

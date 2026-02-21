@@ -1,0 +1,48 @@
+{
+  "id": "example-fixed",
+  "title": "Example Fixed Skill",
+  "description": "TODO: Describe what this skill does — calls a free/fixed API with no authentication (10-500 chars)",
+  "version": "0.1.0",
+  "author": "TODO: Your Name",
+  "category": "research",
+  "icon": "Search",
+  "tags": ["example"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "TODO: Service Name",
+  "service_type": "fixed",
+  "oauth_config": null,
+  "curl_example": "curl 'https://api.example.com/free-endpoint?q=test'",
+  "cli_config": null,
+  "api_config": {
+    "base_url": "https://api.example.com",
+    "vault_service": "none"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "risk_level": "safe",
+  "handler_runtime": "typescript",
+  "files": ["handlers/example.ts"],
+  "commands": [
+    {
+      "name": "lookup",
+      "description": "TODO: Describe what this command does",
+      "handler_file": "handlers/example.ts",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": true,
+          "description": "TODO: Describe this parameter"
+        }
+      ],
+      "returns": {
+        "type": "text",
+        "description": "TODO: Describe what this returns"
+      }
+    }
+  ]
+}
