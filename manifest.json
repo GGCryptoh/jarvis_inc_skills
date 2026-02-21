@@ -1,7 +1,7 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "format": "mixed",
-  "updated_at": "2026-02-20T00:00:00Z",
+  "updated_at": "2026-02-21T00:00:00Z",
   "skills": [
     {
       "path": "Official/research/research_web.json",
@@ -26,29 +26,29 @@
       "path": "Official/research/fetch-webpage-markdown",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json"],
-      "checksum": "7b0524cea1eef6e682c37ba12a931a0a010a4dd763f419685efdb4dfbf825331"
+      "files": ["skill.json", "handlers/fetch_page.ts"],
+      "checksum": "bd59e63c4c3497092da21023a2c80e2cb130aca089dd62cc2c8a8f1c72c6786a"
     },
     {
       "path": "Official/research/whois-lookup",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json"],
-      "checksum": "9719985780f1c709e6b8575591d4ed2cc4b0c3cb6a993ea58b37040c013fe8fd"
+      "files": ["skill.json", "handlers/domain_lookup.ts", "handlers/ip_lookup.ts"],
+      "checksum": "c88918a60253de959ba83821d4b5957d14aacea30dfb0526e28fe7649256cca3"
     },
     {
       "path": "Official/creation/create-images-openai",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json"],
-      "checksum": "f68742173c1ef1b208892cb61d0c8143374d5170765466223f14ef07fbfbf2b1"
+      "files": ["skill.json", "handlers/generate.py"],
+      "checksum": "75853a8de99867026eb82fcdf1b126b11db75670011fb0eb21013038a2c94bf4"
     },
     {
       "path": "Official/creation/create-images-gemini",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json"],
-      "checksum": "bdcad388269a6bf2b2d3f0fbb36bd3d8cec09b6ceac8cc37b18768066b829744"
+      "files": ["skill.json", "handlers/generate.py"],
+      "checksum": "eab23bc0bdeb094c546064d48d2e8761526a989e5c563efaa52cb0cb40b2598a"
     },
     {
       "path": "Official/creation/write-document",
@@ -101,15 +101,22 @@
       "path": "Official/communication/gmail-read",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json"],
-      "checksum": "ee060113eda4180617c5e0e01a6df59134f7667bca1dc8130212396ec16d7bb5"
+      "files": ["skill.json", "handlers/list.ts", "handlers/read.ts"],
+      "checksum": "56b432dcb0ecaf5eec458d8ffe8af52bd3775d07a9bcb9156a37686aef00204e"
     },
     {
       "path": "Official/communication/calendar-read-google",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json"],
-      "checksum": "80d043f5bf1483655e3bb0da43be242ab23a8ca4aba8c9369a4da89c99464350"
+      "files": ["skill.json", "handlers/list_events.ts"],
+      "checksum": "7d45227d8ab8e0a8ec6789a4102bff68eb5beeabf06c99d737dd7dbff5e94443"
+    },
+    {
+      "path": "Official/communication/telegram-bot",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/send_message.ts", "handlers/get_updates.ts"],
+      "checksum": "347400925ae8a87db1b87a1387e133258d9febf1393813e739fc924149816b8e"
     }
   ]
 }

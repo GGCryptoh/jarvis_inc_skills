@@ -2,7 +2,7 @@
   "id": "whois-lookup",
   "title": "WHOIS Lookup",
   "description": "Look up domain registration details, registrar info, nameservers, and expiration dates via RDAP",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Jarvis Inc",
   "category": "research",
   "icon": "Search",
@@ -23,8 +23,8 @@
   "execution_handler": null,
   "collateral": false,
   "output_type": "text",
-  "handler_runtime": null,
-  "files": null,
+  "handler_runtime": "typescript",
+  "files": ["handlers/domain_lookup.ts", "handlers/ip_lookup.ts"],
   "commands": [
     {
       "name": "domain_lookup",
@@ -33,15 +33,7 @@
         { "name": "domain", "type": "string", "required": true, "description": "Domain name to look up (e.g. example.com)" }
       ],
       "returns": { "type": "text", "description": "Domain registration details: registrar, status, nameservers, dates" },
-      "request": {
-        "method": "GET",
-        "path": "domain/{domain}",
-        "proxy": true
-      },
-      "response": {
-        "passthrough": true,
-        "passthrough_to_llm": true
-      }
+      "handler_file": "handlers/domain_lookup.ts"
     },
     {
       "name": "ip_lookup",
@@ -50,15 +42,7 @@
         { "name": "ip", "type": "string", "required": true, "description": "IP address to look up (e.g. 8.8.8.8)" }
       ],
       "returns": { "type": "text", "description": "IP network info: CIDR, org name, country, registration dates" },
-      "request": {
-        "method": "GET",
-        "path": "ip/{ip}",
-        "proxy": true
-      },
-      "response": {
-        "passthrough": true,
-        "passthrough_to_llm": true
-      }
+      "handler_file": "handlers/ip_lookup.ts"
     }
   ]
 }

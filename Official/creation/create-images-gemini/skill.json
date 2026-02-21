@@ -2,7 +2,7 @@
   "id": "create-images-gemini",
   "title": "Image Generation — Gemini",
   "description": "Generate images using Gemini (Google)",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Jarvis Inc",
   "category": "creation",
   "icon": "Sparkles",
@@ -25,48 +25,17 @@
   "execution_handler": null,
   "output_type": "image",
   "collateral": true,
-  "handler_runtime": null,
-  "files": null,
+  "handler_runtime": "python",
+  "files": ["handlers/generate.py"],
   "commands": [
     {
       "name": "generate",
       "description": "Generate images from a text prompt using Gemini",
+      "handler_file": "handlers/generate.py",
       "parameters": [
         { "name": "prompt", "type": "string", "required": true, "description": "Detailed text description of the image to generate" }
       ],
-      "returns": { "type": "object", "description": "Generated image as base64 with optional text response from the model", "media_type": "image/png" },
-      "request": {
-        "method": "POST",
-        "path": "models/{api_model}:generateContent",
-        "body": {
-          "contents": [{ "parts": [{ "text": "{prompt}" }] }],
-          "generationConfig": { "responseModalities": ["TEXT", "IMAGE"] }
-        }
-      },
-      "response": {
-        "image_field": "candidates[0].content.parts[1].inlineData.data",
-        "extract": {
-          "text_response": "candidates[0].content.parts[0].text",
-          "mime_type": "candidates[0].content.parts[1].inlineData.mimeType"
-        }
-      },
-      "post_processors": [
-        {
-          "type": "upload_image",
-          "config": {
-            "field": "candidates[0].content.parts[1].inlineData.data",
-            "filename_prefix": "gemini",
-            "mime_type": "image/png"
-          }
-        },
-        {
-          "type": "estimate_cost",
-          "config": {
-            "base_cost_usd": 0.04
-          }
-        }
-      ],
-      "output_template": "## Generated Image (Gemini)\n\n![{prompt}]({image_url})\n\n**Prompt:** {prompt}\n\n> Generated via Gemini image generation"
+      "returns": { "type": "object", "description": "Generated image as base64 with optional text response from the model", "media_type": "image/png" }
     }
   ]
 }

@@ -2,7 +2,7 @@
   "id": "fetch-webpage-markdown",
   "title": "Fetch Webpage (Markdown)",
   "description": "Fetch any webpage as clean markdown via Cloudflare Markdown for Agents — 80% fewer tokens than raw HTML",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Jarvis Inc",
   "category": "research",
   "icon": "FileText",
@@ -26,8 +26,8 @@
   "execution_handler": null,
   "output_type": "text",
   "collateral": true,
-  "handler_runtime": null,
-  "files": null,
+  "handler_runtime": "typescript",
+  "files": ["handlers/fetch_page.ts"],
   "commands": [
     {
       "name": "fetch_page",
@@ -36,15 +36,7 @@
         { "name": "url", "type": "string", "required": true, "description": "Full URL to fetch (e.g. https://blog.cloudflare.com/some-post)" }
       ],
       "returns": { "type": "string", "description": "Markdown content of the page. Includes token count from x-markdown-tokens response header if available." },
-      "request": {
-        "method": "GET",
-        "path": "{url}",
-        "proxy": true,
-        "response_format": "text"
-      },
-      "response": {
-        "passthrough": true
-      }
+      "handler_file": "handlers/fetch_page.ts"
     }
   ]
 }

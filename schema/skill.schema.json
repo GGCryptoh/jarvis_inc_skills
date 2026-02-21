@@ -144,8 +144,7 @@
       "properties": {
         "base_url": {
           "type": "string",
-          "format": "uri",
-          "description": "Base URL for API requests"
+          "description": "Base URL for API requests. Can be empty string when the full URL is constructed dynamically (e.g. fetch-webpage-markdown)."
         },
         "auth_header": {
           "type": "string",
@@ -254,7 +253,7 @@
       "description": "Array of command definitions that this skill exposes",
       "items": {
         "type": "object",
-        "required": ["name", "description", "parameters", "returns"],
+        "required": ["name", "description", "parameters"],
         "properties": {
           "name": {
             "type": "string",
@@ -309,8 +308,8 @@
             "properties": {
               "type": {
                 "type": "string",
-                "enum": ["string", "number", "boolean", "array", "object"],
-                "description": "Return data type"
+                "enum": ["string", "text", "number", "boolean", "array", "object"],
+                "description": "Return data type. 'text' is an alias for 'string' used by some skills."
               },
               "description": {
                 "type": "string",

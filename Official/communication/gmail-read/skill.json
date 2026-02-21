@@ -2,7 +2,7 @@
   "id": "gmail-read",
   "title": "Gmail \u2014 Read",
   "description": "Read emails from your Gmail inbox",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Jarvis Inc",
   "category": "communication",
   "icon": "Mail",
@@ -29,8 +29,8 @@
   "execution_handler": null,
   "output_type": "text",
   "collateral": false,
-  "handler_runtime": null,
-  "files": null,
+  "handler_runtime": "typescript",
+  "files": ["handlers/list.ts", "handlers/read.ts"],
   "commands": [
     {
       "name": "list",
@@ -39,19 +39,7 @@
         { "name": "query", "type": "string", "required": false, "description": "Gmail search query (e.g., 'is:unread', 'from:boss@company.com')" },
         { "name": "max_results", "type": "number", "required": false, "description": "Max messages to return (default 10)", "default": 10 }
       ],
-      "request": {
-        "method": "GET",
-        "path": "gmail/v1/users/me/messages",
-        "query": { "maxResults": "{max_results}", "q": "{query}" }
-      },
-      "response": {
-        "passthrough_to_llm": true,
-        "extract": {
-          "messages": "messages",
-          "count": "resultSizeEstimate"
-        }
-      },
-      "output_template": "## Gmail \u2014 Recent Messages\n\nApproximate total: {count}\n\n{messages}\n\n> Use the `read` command with a message ID to see full content."
+      "handler_file": "handlers/list.ts"
     },
     {
       "name": "read",
@@ -59,21 +47,7 @@
       "parameters": [
         { "name": "message_id", "type": "string", "required": true, "description": "The Gmail message ID" }
       ],
-      "request": {
-        "method": "GET",
-        "path": "gmail/v1/users/me/messages/{message_id}",
-        "query": { "format": "full" }
-      },
-      "response": {
-        "passthrough_to_llm": true,
-        "extract": {
-          "snippet": "snippet",
-          "labels": "labelIds",
-          "headers": "payload.headers",
-          "body_parts": "payload.parts"
-        }
-      },
-      "output_template": "## Email\n\n**Snippet:** {snippet}\n\n**Labels:** {labels}\n\n**Headers:**\n{headers}\n\n**Body:**\n{body_parts}"
+      "handler_file": "handlers/read.ts"
     }
   ]
 }
