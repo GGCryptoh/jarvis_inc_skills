@@ -44,17 +44,17 @@
         }
       },
       "response": {
-        "image_field": "candidates[0].content.parts[0].inlineData.data",
+        "image_field": "candidates[0].content.parts[1].inlineData.data",
         "extract": {
-          "text_response": "candidates[0].content.parts[1].text",
-          "mime_type": "candidates[0].content.parts[0].inlineData.mimeType"
+          "text_response": "candidates[0].content.parts[0].text",
+          "mime_type": "candidates[0].content.parts[1].inlineData.mimeType"
         }
       },
       "post_processors": [
         {
           "type": "upload_image",
           "config": {
-            "field": "candidates[0].content.parts[0].inlineData.data",
+            "field": "candidates[0].content.parts[1].inlineData.data",
             "filename_prefix": "gemini",
             "mime_type": "image/png"
           }
