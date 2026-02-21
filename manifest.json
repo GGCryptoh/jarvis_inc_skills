@@ -48,7 +48,7 @@
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json"],
-      "checksum": "4cf6a3540935ef248d2269c52c8a3b66b3b097c96e3332b2e2a19824f9b8fca6"
+      "checksum": "bee0140acdd0a4be5043a3bce9acbe01045f70b5875914bc8be124b68e1cd0c4"
     },
     {
       "path": "Official/creation/write-document",

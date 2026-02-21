@@ -1,7 +1,7 @@
 {
   "id": "create-images-gemini",
   "title": "Image Generation — Gemini",
-  "description": "Generate images using Gemini 2.5 Flash (Google)",
+  "description": "Generate images using Gemini (Google)",
   "version": "0.1.0",
   "author": "Jarvis Inc",
   "category": "creation",
@@ -14,13 +14,13 @@
   "fixed_service": "Google",
   "service_type": "fixed",
   "oauth_config": null,
-  "curl_example": "curl -s -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=$GEMINI_API_KEY' -H 'Content-Type: application/json' -d '{\"contents\": [{\"parts\": [{\"text\": \"A pixel art office with retro computers\"}]}], \"generationConfig\": {\"responseModalities\": [\"TEXT\", \"IMAGE\"]}}'",
+  "curl_example": "curl -s -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=$GEMINI_API_KEY' -H 'Content-Type: application/json' -d '{\"contents\": [{\"parts\": [{\"text\": \"A pixel art office with retro computers\"}]}], \"generationConfig\": {\"responseModalities\": [\"TEXT\", \"IMAGE\"]}}'",
   "cli_config": null,
   "api_config": {
     "base_url": "https://generativelanguage.googleapis.com/v1beta",
     "auth_in_query": "key",
     "vault_service": "Google",
-    "api_model": "gemini-2.5-flash-preview-05-20"
+    "api_model": "gemini-2.0-flash-exp-image-generation"
   },
   "execution_handler": null,
   "output_type": "image",
@@ -30,7 +30,7 @@
   "commands": [
     {
       "name": "generate",
-      "description": "Generate images from a text prompt using Gemini 2.5 Flash",
+      "description": "Generate images from a text prompt using Gemini",
       "parameters": [
         { "name": "prompt", "type": "string", "required": true, "description": "Detailed text description of the image to generate" }
       ],
@@ -66,7 +66,7 @@
           }
         }
       ],
-      "output_template": "## Generated Image (Gemini)\n\n![{prompt}]({image_url})\n\n**Prompt:** {prompt}\n\n> Generated via Gemini 2.5 Flash image generation"
+      "output_template": "## Generated Image (Gemini)\n\n![{prompt}]({image_url})\n\n**Prompt:** {prompt}\n\n> Generated via Gemini image generation"
     }
   ]
 }
