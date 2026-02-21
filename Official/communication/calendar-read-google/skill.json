@@ -1,0 +1,66 @@
+{
+  "id": "calendar-read-google",
+  "title": "Google Calendar \u2014 Read",
+  "description": "Read events from your Google Calendar",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Calendar",
+  "tags": ["calendar", "google", "events", "schedule", "meetings"],
+  "status": "available",
+  "connection_type": "oauth",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Google",
+  "service_type": "fixed",
+  "oauth_config": {
+    "provider": "Google",
+    "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+    "token_url": "https://oauth2.googleapis.com/token",
+    "scopes": ["https://www.googleapis.com/auth/calendar.readonly"],
+    "pkce": false
+  },
+  "api_config": {
+    "base_url": "https://www.googleapis.com",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "Google Calendar"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "handler_runtime": null,
+  "files": null,
+  "commands": [
+    {
+      "name": "list_events",
+      "description": "List upcoming calendar events. Pass time_min/time_max as ISO 8601 to filter by date range.",
+      "parameters": [
+        { "name": "time_min", "type": "string", "required": false, "description": "Start of time range (ISO 8601, e.g., '2026-02-20T00:00:00Z')" },
+        { "name": "time_max", "type": "string", "required": false, "description": "End of time range (ISO 8601)" },
+        { "name": "max_results", "type": "number", "required": false, "description": "Max events to return (default 10)", "default": 10 },
+        { "name": "query", "type": "string", "required": false, "description": "Free text search query" }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "calendar/v3/calendars/primary/events",
+        "query": {
+          "maxResults": "{max_results}",
+          "timeMin": "{time_min}",
+          "timeMax": "{time_max}",
+          "q": "{query}",
+          "singleEvents": "true",
+          "orderBy": "startTime"
+        }
+      },
+      "response": {
+        "passthrough_to_llm": true,
+        "extract": {
+          "events": "items",
+          "calendar_name": "summary"
+        }
+      },
+      "output_template": "## Google Calendar \u2014 {calendar_name}\n\n{events}"
+    }
+  ]
+}

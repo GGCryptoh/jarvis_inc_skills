@@ -1,0 +1,79 @@
+{
+  "id": "gmail-read",
+  "title": "Gmail \u2014 Read",
+  "description": "Read emails from your Gmail inbox",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Mail",
+  "tags": ["email", "gmail", "google", "inbox", "communication"],
+  "status": "available",
+  "connection_type": "oauth",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Google",
+  "service_type": "fixed",
+  "oauth_config": {
+    "provider": "Google",
+    "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+    "token_url": "https://oauth2.googleapis.com/token",
+    "scopes": ["https://www.googleapis.com/auth/gmail.readonly"],
+    "pkce": false
+  },
+  "api_config": {
+    "base_url": "https://gmail.googleapis.com",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "Google Gmail"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "handler_runtime": null,
+  "files": null,
+  "commands": [
+    {
+      "name": "list",
+      "description": "List recent emails (returns message IDs and thread IDs)",
+      "parameters": [
+        { "name": "query", "type": "string", "required": false, "description": "Gmail search query (e.g., 'is:unread', 'from:boss@company.com')" },
+        { "name": "max_results", "type": "number", "required": false, "description": "Max messages to return (default 10)", "default": 10 }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "gmail/v1/users/me/messages",
+        "query": { "maxResults": "{max_results}", "q": "{query}" }
+      },
+      "response": {
+        "passthrough_to_llm": true,
+        "extract": {
+          "messages": "messages",
+          "count": "resultSizeEstimate"
+        }
+      },
+      "output_template": "## Gmail \u2014 Recent Messages\n\nApproximate total: {count}\n\n{messages}\n\n> Use the `read` command with a message ID to see full content."
+    },
+    {
+      "name": "read",
+      "description": "Read a specific email by message ID (returns full message with headers and body)",
+      "parameters": [
+        { "name": "message_id", "type": "string", "required": true, "description": "The Gmail message ID" }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "gmail/v1/users/me/messages/{message_id}",
+        "query": { "format": "full" }
+      },
+      "response": {
+        "passthrough_to_llm": true,
+        "extract": {
+          "snippet": "snippet",
+          "labels": "labelIds",
+          "headers": "payload.headers",
+          "body_parts": "payload.parts"
+        }
+      },
+      "output_template": "## Email\n\n**Snippet:** {snippet}\n\n**Labels:** {labels}\n\n**Headers:**\n{headers}\n\n**Body:**\n{body_parts}"
+    }
+  ]
+}

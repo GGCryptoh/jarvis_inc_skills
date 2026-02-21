@@ -1,12 +1,12 @@
 {
   "id": "create-images-gemini",
   "title": "Image Generation — Gemini",
-  "description": "Generate images using Gemini Nano Banana (Google)",
-  "version": "0.0.2",
+  "description": "Generate images using Gemini 2.5 Flash (Google)",
+  "version": "0.1.0",
   "author": "Jarvis Inc",
   "category": "creation",
   "icon": "Sparkles",
-  "tags": ["image", "generation", "art", "design", "gemini", "google", "nano-banana", "creative"],
+  "tags": ["image", "generation", "art", "design", "gemini", "google", "creative"],
   "status": "available",
   "connection_type": "api_key",
   "models": null,
@@ -14,29 +14,59 @@
   "fixed_service": "Google",
   "service_type": "fixed",
   "oauth_config": null,
-  "curl_example": "curl -s -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=$GEMINI_API_KEY' -H 'Content-Type: application/json' -d '{\"contents\": [{\"parts\": [{\"text\": \"A pixel art office with retro computers\"}]}], \"generationConfig\": {\"responseModalities\": [\"TEXT\", \"IMAGE\"]}}'",
+  "curl_example": "curl -s -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=$GEMINI_API_KEY' -H 'Content-Type: application/json' -d '{\"contents\": [{\"parts\": [{\"text\": \"A pixel art office with retro computers\"}]}], \"generationConfig\": {\"responseModalities\": [\"TEXT\", \"IMAGE\"]}}'",
   "cli_config": null,
   "api_config": {
     "base_url": "https://generativelanguage.googleapis.com/v1beta",
-    "auth_header": "x-goog-api-key",
-    "auth_prefix": "",
+    "auth_in_query": "key",
     "vault_service": "Google",
-    "api_model": "gemini-2.5-flash-image"
+    "api_model": "gemini-2.5-flash-preview-05-20"
   },
   "execution_handler": null,
   "output_type": "image",
   "collateral": true,
-  "handler_runtime": "typescript",
-  "files": ["handlers/generate.ts"],
+  "handler_runtime": null,
+  "files": null,
   "commands": [
     {
       "name": "generate",
-      "description": "Generate images from a text prompt using Gemini Nano Banana",
+      "description": "Generate images from a text prompt using Gemini 2.5 Flash",
       "parameters": [
         { "name": "prompt", "type": "string", "required": true, "description": "Detailed text description of the image to generate" }
       ],
-      "returns": { "type": "object", "description": "Generated image as base64 data URI with optional text response from the model", "media_type": "image/png" },
-      "handler_file": "handlers/generate.ts"
+      "returns": { "type": "object", "description": "Generated image as base64 with optional text response from the model", "media_type": "image/png" },
+      "request": {
+        "method": "POST",
+        "path": "models/{api_model}:generateContent",
+        "body": {
+          "contents": [{ "parts": [{ "text": "{prompt}" }] }],
+          "generationConfig": { "responseModalities": ["TEXT", "IMAGE"] }
+        }
+      },
+      "response": {
+        "image_field": "candidates[0].content.parts[0].inlineData.data",
+        "extract": {
+          "text_response": "candidates[0].content.parts[1].text",
+          "mime_type": "candidates[0].content.parts[0].inlineData.mimeType"
+        }
+      },
+      "post_processors": [
+        {
+          "type": "upload_image",
+          "config": {
+            "field": "candidates[0].content.parts[0].inlineData.data",
+            "filename_prefix": "gemini",
+            "mime_type": "image/png"
+          }
+        },
+        {
+          "type": "estimate_cost",
+          "config": {
+            "base_cost_usd": 0.04
+          }
+        }
+      ],
+      "output_template": "## Generated Image (Gemini)\n\n![{prompt}]({image_url})\n\n**Prompt:** {prompt}\n\n> Generated via Gemini 2.5 Flash image generation"
     }
   ]
 }

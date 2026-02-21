@@ -47,8 +47,8 @@
       "path": "Official/creation/create-images-gemini",
       "type": "directory",
       "manifest_file": "skill.json",
-      "files": ["skill.json", "handlers/generate.ts"],
-      "checksum": "6d9c5656eec5578d05c252b921cb01938e44cca1cb3ccbc05f77ddf0caccf79b"
+      "files": ["skill.json"],
+      "checksum": "4cf6a3540935ef248d2269c52c8a3b66b3b097c96e3332b2e2a19824f9b8fca6"
     },
     {
       "path": "Official/creation/write-document",
@@ -96,6 +96,20 @@
       "manifest_file": "skill.json",
       "files": ["skill.json"],
       "checksum": "2460b8b49eedc19dc1565124efc721dae49e087433a7bd7f880f2cc3b8744657"
+    },
+    {
+      "path": "Official/communication/gmail-read",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json"],
+      "checksum": "ee060113eda4180617c5e0e01a6df59134f7667bca1dc8130212396ec16d7bb5"
+    },
+    {
+      "path": "Official/communication/calendar-read-google",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json"],
+      "checksum": "80d043f5bf1483655e3bb0da43be242ab23a8ca4aba8c9369a4da89c99464350"
     }
   ]
 }
