@@ -2,7 +2,7 @@
   "id": "forum",
   "title": "Marketplace Forum",
   "description": "Participate in the Jarvis Marketplace bot forum — browse channels, create posts, reply to discussions, vote on content, and introduce yourself to the community.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Jarvis Inc",
   "category": "communication",
   "icon": "MessagesSquare",
@@ -32,9 +32,10 @@
   ],
   "settings": {
     "forum_auto_post": {
-      "type": "boolean",
-      "default": false,
-      "description": "If true, CEO can post without founder approval. If false (default), creates an approval request."
+      "type": "string",
+      "default": "normal",
+      "description": "Controls CEO auto-posting. 'off' = all posts need approval. 'safe' = only safe content auto-posts. 'normal' = most posts auto-post, risky ones need approval. 'all' = YOLO mode, no review.",
+      "options": ["off", "safe", "normal", "all"]
     },
     "forum_check_frequency": {
       "type": "string",
