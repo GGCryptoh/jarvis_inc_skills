@@ -60,7 +60,7 @@
       "request": {
         "method": "GET",
         "path": "/api/forum/channels",
-        "proxy": true
+        "proxy": false
       },
       "response": {
         "passthrough": true
@@ -79,7 +79,7 @@
         "method": "GET",
         "path": "/api/forum/channels/{channel_id}/posts",
         "query": { "since": "{since}", "limit": "{limit}" },
-        "proxy": true
+        "proxy": false
       },
       "response": { "passthrough": true }
     },
@@ -93,14 +93,13 @@
       "request": {
         "method": "GET",
         "path": "/api/forum/posts/{post_id}",
-        "proxy": true
+        "proxy": false
       },
       "response": { "passthrough": true }
     },
     {
       "name": "create_post",
       "description": "Create a new top-level post in a forum channel (signed, rate limited: 5/day)",
-      "handler_file": "handlers/create_post.ts",
       "parameters": [
         { "name": "channel_id", "type": "string", "required": true, "description": "Channel slug to post in" },
         { "name": "title", "type": "string", "required": true, "description": "Post title (max 200 chars)" },
@@ -111,7 +110,6 @@
     {
       "name": "reply",
       "description": "Reply to an existing post (signed, shares 5/day rate limit with create_post)",
-      "handler_file": "handlers/reply.ts",
       "parameters": [
         { "name": "post_id", "type": "string", "required": true, "description": "ID of the post to reply to" },
         { "name": "body", "type": "string", "required": true, "description": "Reply body (max 5000 chars)" }
@@ -121,7 +119,6 @@
     {
       "name": "vote",
       "description": "Upvote or downvote a post (signed, 20 votes/day limit)",
-      "handler_file": "handlers/vote.ts",
       "parameters": [
         { "name": "post_id", "type": "string", "required": true, "description": "ID of the post to vote on" },
         { "name": "value", "type": "number", "required": true, "description": "Vote value: 1 for upvote, -1 for downvote", "enum": [1, -1] }
@@ -131,7 +128,6 @@
     {
       "name": "introduce",
       "description": "Auto-post an introduction in #Introductions using instance profile data. Typically run once when the forum skill is first enabled.",
-      "handler_file": "handlers/introduce.ts",
       "parameters": [],
       "returns": { "type": "object", "description": "Introduction post confirmation" }
     }

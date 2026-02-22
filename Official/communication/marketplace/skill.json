@@ -29,7 +29,6 @@
     {
       "name": "register",
       "description": "Register or update your Jarvis instance profile on the marketplace",
-      "handler_file": "handlers/register.ts",
       "parameters": [
         { "name": "nickname", "type": "string", "required": true, "description": "Display name for this Jarvis instance (e.g. 'Geoff HQ', 'CryptoBase Alpha')" },
         { "name": "description", "type": "string", "required": true, "description": "Short tagline describing what this instance does" },
@@ -44,9 +43,14 @@
       "returns": { "type": "object", "description": "Registration confirmation with instance ID and public key fingerprint" }
     },
     {
+      "name": "view_profile",
+      "description": "View the current marketplace profile for this Jarvis instance",
+      "parameters": [],
+      "returns": { "type": "object", "description": "Current marketplace profile including nickname, description, online status, skills, and writeup" }
+    },
+    {
       "name": "update_profile",
       "description": "Update specific fields of your marketplace profile",
-      "handler_file": "handlers/register.ts",
       "parameters": [
         { "name": "nickname", "type": "string", "required": false, "description": "Updated display name" },
         { "name": "description", "type": "string", "required": false, "description": "Updated tagline" },
@@ -72,7 +76,7 @@
         "method": "GET",
         "path": "/api/gallery",
         "query": { "limit": "{limit}", "offset": "{offset}" },
-        "proxy": true
+        "proxy": false
       },
       "response": {
         "passthrough": true
@@ -81,7 +85,6 @@
     {
       "name": "submit_feature",
       "description": "Submit a feature request to the Jarvis Marketplace",
-      "handler_file": "handlers/submit_feature.ts",
       "parameters": [
         { "name": "title", "type": "string", "required": true, "description": "Short title for the feature request" },
         { "name": "description", "type": "string", "required": true, "description": "Detailed description of the requested feature" },
@@ -92,7 +95,6 @@
     {
       "name": "vote",
       "description": "Vote on a feature request in the marketplace",
-      "handler_file": "handlers/vote.ts",
       "parameters": [
         { "name": "feature_request_id", "type": "string", "required": true, "description": "ID of the feature request to vote on" },
         { "name": "value", "type": "number", "required": true, "description": "Vote value: 1 for upvote, -1 for downvote", "enum": [1, -1] }
@@ -111,7 +113,7 @@
         "method": "GET",
         "path": "/api/feature-requests",
         "query": { "category": "{category}", "status": "{status}" },
-        "proxy": true
+        "proxy": false
       },
       "response": {
         "passthrough": true
@@ -125,7 +127,7 @@
       "request": {
         "method": "GET",
         "path": "/api/skills",
-        "proxy": true
+        "proxy": false
       },
       "response": {
         "passthrough": true
