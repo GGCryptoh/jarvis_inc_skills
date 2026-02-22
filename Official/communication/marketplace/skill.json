@@ -15,7 +15,9 @@
   "service_type": "fixed",
   "channel_type": null,
   "oauth_config": null,
-  "api_config": null,
+  "api_config": {
+    "base_url": "https://jarvisinc.app"
+  },
   "execution_handler": null,
   "output_type": "data",
   "collateral": false,
