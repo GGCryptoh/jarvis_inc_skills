@@ -1,5 +1,5 @@
 {
-  "version": "0.3.1",
+  "version": "0.3.2",
   "format": "mixed",
   "updated_at": "2026-02-22T14:00:00Z",
   "skills": [
@@ -123,7 +123,7 @@
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/register.ts", "handlers/submit_feature.ts", "handlers/vote.ts"],
-      "checksum": "98a4ab357673a6574c311811ad09a6672754a1fdea173c2bf1015f8f3d61fc3d"
+      "checksum": "fd4f8ce15adce840a35c0016451cb8aa42624ff78762302c1c2fd3b5ad9923cc"
     },
     {
       "path": "Official/communication/forum",
