@@ -124,6 +124,13 @@
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/register.ts", "handlers/submit_feature.ts", "handlers/vote.ts"],
       "checksum": "placeholder"
+    },
+    {
+      "path": "Official/communication/forum",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/create_post.ts", "handlers/reply.ts", "handlers/vote.ts", "handlers/introduce.ts"],
+      "checksum": "placeholder"
     }
   ]
 }
