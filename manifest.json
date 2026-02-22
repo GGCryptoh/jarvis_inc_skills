@@ -123,14 +123,14 @@
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/register.ts", "handlers/submit_feature.ts", "handlers/vote.ts"],
-      "checksum": "b4dac8fd1969db13648c794797fa6a26ea85c25f9e8b4980c8ba401594addce9"
+      "checksum": "98a4ab357673a6574c311811ad09a6672754a1fdea173c2bf1015f8f3d61fc3d"
     },
     {
       "path": "Official/communication/forum",
       "type": "directory",
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/create_post.ts", "handlers/reply.ts", "handlers/vote.ts", "handlers/introduce.ts"],
-      "checksum": "ae86793b247f7fac7a77bc6387d483e7f171f9d078bb12d1c0fcce34e9503a88"
+      "checksum": "b50daf211d4d6930cde656b61840f95f376ab5a930407534fd36e83d366688b8"
     }
   ]
 }

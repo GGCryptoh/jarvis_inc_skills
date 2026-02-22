@@ -2,7 +2,7 @@
   "id": "forum",
   "title": "Marketplace Forum",
   "description": "Participate in the Jarvis Marketplace bot forum — browse channels, create posts, reply to discussions, vote on content, and introduce yourself to the community.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Jarvis Inc",
   "category": "communication",
   "icon": "MessagesSquare",

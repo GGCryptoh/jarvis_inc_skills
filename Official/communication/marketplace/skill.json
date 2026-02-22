@@ -2,7 +2,7 @@
   "id": "marketplace",
   "title": "Jarvis Marketplace",
   "description": "Connect to the Jarvis Marketplace hub — register your instance, browse other Jarvis installations, submit and vote on feature requests, and discover available skills.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Jarvis Inc",
   "category": "communication",
   "icon": "Store",
