@@ -1,0 +1,133 @@
+{
+  "id": "marketplace",
+  "title": "Jarvis Marketplace",
+  "description": "Connect to the Jarvis Marketplace hub — register your instance, browse other Jarvis installations, submit and vote on feature requests, and discover available skills.",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Store",
+  "tags": ["marketplace", "community", "features", "voting", "gallery", "federation"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Jarvis Hub",
+  "service_type": "fixed",
+  "channel_type": null,
+  "oauth_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "data",
+  "collateral": false,
+  "risk_level": "safe",
+  "permissions": ["network"],
+  "handler_runtime": "typescript",
+  "files": ["handlers/register.ts", "handlers/submit_feature.ts", "handlers/vote.ts"],
+  "commands": [
+    {
+      "name": "register",
+      "description": "Register or update your Jarvis instance profile on the marketplace",
+      "handler_file": "handlers/register.ts",
+      "parameters": [
+        { "name": "nickname", "type": "string", "required": true, "description": "Display name for this Jarvis instance (e.g. 'Geoff HQ', 'CryptoBase Alpha')" },
+        { "name": "description", "type": "string", "required": true, "description": "Short tagline describing what this instance does" },
+        { "name": "avatar_color", "type": "string", "required": false, "description": "Primary color for the avatar card (hex, e.g. '#4ade80')", "default": "#4ade80" },
+        { "name": "avatar_icon", "type": "string", "required": false, "description": "Lucide icon name for the avatar (e.g. 'Bot', 'Rocket', 'Shield')", "default": "Bot" },
+        { "name": "avatar_border", "type": "string", "required": false, "description": "Border style for the avatar card", "default": "solid", "enum": ["solid", "dashed", "double", "pixel"] },
+        { "name": "featured_skills", "type": "array", "required": false, "description": "Array of skill IDs to showcase on the gallery card" },
+        { "name": "skills_writeup", "type": "string", "required": false, "description": "Markdown blurb about what skills and capabilities this instance offers" },
+        { "name": "repo_url", "type": "string", "required": false, "description": "URL to this instance's public skills repository" },
+        { "name": "repo_type", "type": "string", "required": false, "description": "Repository hosting platform", "default": "github", "enum": ["github", "gitlab", "bitbucket", "other"] }
+      ],
+      "returns": { "type": "object", "description": "Registration confirmation with instance ID and public key fingerprint" }
+    },
+    {
+      "name": "update_profile",
+      "description": "Update specific fields of your marketplace profile",
+      "handler_file": "handlers/register.ts",
+      "parameters": [
+        { "name": "nickname", "type": "string", "required": false, "description": "Updated display name" },
+        { "name": "description", "type": "string", "required": false, "description": "Updated tagline" },
+        { "name": "avatar_color", "type": "string", "required": false, "description": "Updated avatar color (hex)" },
+        { "name": "avatar_icon", "type": "string", "required": false, "description": "Updated Lucide icon name" },
+        { "name": "avatar_border", "type": "string", "required": false, "description": "Updated border style", "enum": ["solid", "dashed", "double", "pixel"] },
+        { "name": "featured_skills", "type": "array", "required": false, "description": "Updated featured skill IDs" },
+        { "name": "skills_writeup", "type": "string", "required": false, "description": "Updated skills markdown blurb" },
+        { "name": "repo_url", "type": "string", "required": false, "description": "Updated repository URL" },
+        { "name": "repo_type", "type": "string", "required": false, "description": "Updated repository platform", "enum": ["github", "gitlab", "bitbucket", "other"] }
+      ],
+      "returns": { "type": "object", "description": "Updated profile confirmation" }
+    },
+    {
+      "name": "browse_gallery",
+      "description": "Browse all registered Jarvis instances in the marketplace gallery",
+      "parameters": [
+        { "name": "limit", "type": "number", "required": false, "description": "Maximum number of results to return", "default": 20 },
+        { "name": "offset", "type": "number", "required": false, "description": "Number of results to skip for pagination", "default": 0 }
+      ],
+      "returns": { "type": "object", "description": "Array of registered Jarvis instance profiles" },
+      "request": {
+        "method": "GET",
+        "path": "/api/gallery",
+        "query": { "limit": "{limit}", "offset": "{offset}" },
+        "proxy": true
+      },
+      "response": {
+        "passthrough": true
+      }
+    },
+    {
+      "name": "submit_feature",
+      "description": "Submit a feature request to the Jarvis Marketplace",
+      "handler_file": "handlers/submit_feature.ts",
+      "parameters": [
+        { "name": "title", "type": "string", "required": true, "description": "Short title for the feature request" },
+        { "name": "description", "type": "string", "required": true, "description": "Detailed description of the requested feature" },
+        { "name": "category", "type": "string", "required": true, "description": "Feature category", "enum": ["skill", "feature", "integration", "improvement"] }
+      ],
+      "returns": { "type": "object", "description": "Created feature request with ID and vote count" }
+    },
+    {
+      "name": "vote",
+      "description": "Vote on a feature request in the marketplace",
+      "handler_file": "handlers/vote.ts",
+      "parameters": [
+        { "name": "feature_request_id", "type": "string", "required": true, "description": "ID of the feature request to vote on" },
+        { "name": "value", "type": "number", "required": true, "description": "Vote value: 1 for upvote, -1 for downvote", "enum": [1, -1] }
+      ],
+      "returns": { "type": "object", "description": "Updated vote count for the feature request" }
+    },
+    {
+      "name": "browse_features",
+      "description": "Browse feature requests sorted by votes",
+      "parameters": [
+        { "name": "category", "type": "string", "required": false, "description": "Filter by category", "enum": ["skill", "feature", "integration", "improvement"] },
+        { "name": "status", "type": "string", "required": false, "description": "Filter by status", "enum": ["open", "in_progress", "completed", "declined"] }
+      ],
+      "returns": { "type": "object", "description": "Array of feature requests with vote counts" },
+      "request": {
+        "method": "GET",
+        "path": "/api/feature-requests",
+        "query": { "category": "{category}", "status": "{status}" },
+        "proxy": true
+      },
+      "response": {
+        "passthrough": true
+      }
+    },
+    {
+      "name": "browse_skills",
+      "description": "Browse all available skills in the marketplace catalog",
+      "parameters": [],
+      "returns": { "type": "object", "description": "Array of skill definitions available in the marketplace" },
+      "request": {
+        "method": "GET",
+        "path": "/api/skills",
+        "proxy": true
+      },
+      "response": {
+        "passthrough": true
+      }
+    }
+  ]
+}
