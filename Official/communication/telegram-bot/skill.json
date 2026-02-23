@@ -2,7 +2,7 @@
   "id": "telegram-bot",
   "title": "Telegram Bot",
   "description": "Send and receive messages via Telegram Bot API",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Jarvis Inc",
   "category": "communication",
   "icon": "MessageCircle",
@@ -24,6 +24,22 @@
   "collateral": false,
   "handler_runtime": "typescript",
   "files": ["handlers/send_message.ts", "handlers/get_updates.ts"],
+  "options": [
+    {
+      "key": "approval_notifications",
+      "label": "Send approvals via Telegram",
+      "type": "boolean",
+      "default": true,
+      "description": "Route pending approvals to Telegram with inline APPROVE/DISMISS buttons"
+    },
+    {
+      "key": "ceo_alerts",
+      "label": "CEO alerts via Telegram",
+      "type": "boolean",
+      "default": false,
+      "description": "Send CEO proactive messages to Telegram"
+    }
+  ],
   "commands": [
     {
       "name": "send_message",
@@ -31,18 +47,22 @@
       "handler_file": "handlers/send_message.ts",
       "parameters": [
         { "name": "chat_id", "type": "string", "required": true, "description": "Telegram chat ID to send to" },
-        { "name": "text", "type": "string", "required": true, "description": "Message text to send (supports Markdown)" }
+        { "name": "text", "type": "string", "required": true, "description": "Message text to send (supports Markdown)" },
+        { "name": "parse_mode", "type": "string", "required": false, "description": "Parse mode: Markdown or HTML", "default": "Markdown" },
+        { "name": "reply_markup", "type": "string", "required": false, "description": "JSON string of inline keyboard markup for buttons" }
       ],
-      "returns": { "type": "object", "description": "Telegram API response with message_id" }
+      "returns": { "type": "object", "description": "JSON with message_id, chat_id, ok" }
     },
     {
       "name": "get_updates",
-      "description": "Get recent messages sent to the bot",
+      "description": "Get recent updates (messages, callback queries) sent to the bot",
       "handler_file": "handlers/get_updates.ts",
       "parameters": [
-        { "name": "limit", "type": "number", "required": false, "description": "Max number of updates to return", "default": 10 }
+        { "name": "limit", "type": "number", "required": false, "description": "Max number of updates to return", "default": 10 },
+        { "name": "offset", "type": "number", "required": false, "description": "Identifier of the first update to be returned (for pagination)" },
+        { "name": "allowed_updates", "type": "array", "required": false, "description": "List of update types to receive (e.g. ['callback_query'])" }
       ],
-      "returns": { "type": "object", "description": "Recent messages received by the bot" }
+      "returns": { "type": "object", "description": "JSON array of Telegram Update objects" }
     }
   ]
 }
