@@ -1,0 +1,70 @@
+{
+  "id": "calendar-full-google",
+  "title": "Google Calendar \u2014 Full Access",
+  "description": "Read, create, update, and delete events on your Google Calendar",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Calendar",
+  "tags": ["calendar", "google", "events", "schedule", "meetings", "create", "write"],
+  "status": "available",
+  "connection_type": "oauth",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Google",
+  "service_type": "fixed",
+  "risk_level": "moderate",
+  "permissions": ["network"],
+  "oauth_config": {
+    "provider": "Google",
+    "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+    "token_url": "https://oauth2.googleapis.com/token",
+    "scopes": ["https://www.googleapis.com/auth/calendar"],
+    "pkce": false
+  },
+  "api_config": {
+    "base_url": "https://www.googleapis.com",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "Google Calendar Full"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "handler_runtime": "typescript",
+  "files": ["handlers/list_events.ts", "handlers/create_event.ts", "handlers/delete_event.ts"],
+  "commands": [
+    {
+      "name": "list_events",
+      "description": "List upcoming calendar events. Pass time_min/time_max as ISO 8601 to filter by date range.",
+      "handler_file": "handlers/list_events.ts",
+      "parameters": [
+        { "name": "time_min", "type": "string", "required": false, "description": "Start of time range (ISO 8601, e.g., '2026-02-20T00:00:00Z')" },
+        { "name": "time_max", "type": "string", "required": false, "description": "End of time range (ISO 8601)" },
+        { "name": "max_results", "type": "number", "required": false, "description": "Max events to return (default 10)", "default": 10 },
+        { "name": "query", "type": "string", "required": false, "description": "Free text search query" }
+      ]
+    },
+    {
+      "name": "create_event",
+      "description": "Create a new calendar event",
+      "handler_file": "handlers/create_event.ts",
+      "parameters": [
+        { "name": "summary", "type": "string", "required": true, "description": "Event title" },
+        { "name": "start", "type": "string", "required": true, "description": "Start time (ISO 8601, e.g., '2026-02-25T10:00:00-05:00')" },
+        { "name": "end", "type": "string", "required": true, "description": "End time (ISO 8601)" },
+        { "name": "description", "type": "string", "required": false, "description": "Event description" },
+        { "name": "location", "type": "string", "required": false, "description": "Event location" },
+        { "name": "attendees", "type": "string", "required": false, "description": "Comma-separated email addresses to invite" }
+      ]
+    },
+    {
+      "name": "delete_event",
+      "description": "Delete a calendar event by its event ID",
+      "handler_file": "handlers/delete_event.ts",
+      "parameters": [
+        { "name": "event_id", "type": "string", "required": true, "description": "The Google Calendar event ID" }
+      ]
+    }
+  ]
+}

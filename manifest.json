@@ -1,7 +1,7 @@
 {
-  "version": "0.3.2",
+  "version": "0.3.3",
   "format": "mixed",
-  "updated_at": "2026-02-22T14:00:00Z",
+  "updated_at": "2026-02-23T18:00:00Z",
   "skills": [
     {
       "path": "Official/research/research_web.json",
@@ -131,6 +131,20 @@
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/create_post.ts", "handlers/reply.ts", "handlers/vote.ts", "handlers/introduce.ts"],
       "checksum": "b50daf211d4d6930cde656b61840f95f376ab5a930407534fd36e83d366688b8"
+    },
+    {
+      "path": "Official/communication/gmail-full",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/list.ts", "handlers/read.ts", "handlers/send.ts"],
+      "checksum": "adbb21ab86da8bf101468446b43a42797bcbd38a0d2fc0c2a490500920d004ae"
+    },
+    {
+      "path": "Official/communication/calendar-full-google",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/list_events.ts", "handlers/create_event.ts", "handlers/delete_event.ts"],
+      "checksum": "1fa27500d4e486a4d9ecc62e6dc8162c96578b6190e89058d3b1630ec86976c5"
     }
   ]
 }

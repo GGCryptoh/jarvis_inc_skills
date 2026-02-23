@@ -1,0 +1,67 @@
+{
+  "id": "gmail-full",
+  "title": "Gmail \u2014 Full Access",
+  "description": "Read, send, and manage emails in your Gmail inbox",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Mail",
+  "tags": ["email", "gmail", "google", "inbox", "communication", "send", "write"],
+  "status": "available",
+  "connection_type": "oauth",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Google",
+  "service_type": "fixed",
+  "risk_level": "moderate",
+  "permissions": ["network"],
+  "oauth_config": {
+    "provider": "Google",
+    "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+    "token_url": "https://oauth2.googleapis.com/token",
+    "scopes": ["https://www.googleapis.com/auth/gmail.modify", "https://www.googleapis.com/auth/gmail.send"],
+    "pkce": false
+  },
+  "api_config": {
+    "base_url": "https://gmail.googleapis.com",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "Google Gmail Full"
+  },
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": false,
+  "handler_runtime": "typescript",
+  "files": ["handlers/list.ts", "handlers/read.ts", "handlers/send.ts"],
+  "commands": [
+    {
+      "name": "list",
+      "description": "List recent emails (returns message IDs and thread IDs)",
+      "parameters": [
+        { "name": "query", "type": "string", "required": false, "description": "Gmail search query (e.g., 'is:unread', 'from:boss@company.com')" },
+        { "name": "max_results", "type": "number", "required": false, "description": "Max messages to return (default 10)", "default": 10 }
+      ],
+      "handler_file": "handlers/list.ts"
+    },
+    {
+      "name": "read",
+      "description": "Read a specific email by message ID (returns full message with headers and body)",
+      "parameters": [
+        { "name": "message_id", "type": "string", "required": true, "description": "The Gmail message ID" }
+      ],
+      "handler_file": "handlers/read.ts"
+    },
+    {
+      "name": "send",
+      "description": "Send an email via Gmail",
+      "parameters": [
+        { "name": "to", "type": "string", "required": true, "description": "Recipient email address" },
+        { "name": "subject", "type": "string", "required": true, "description": "Email subject" },
+        { "name": "body", "type": "string", "required": true, "description": "Email body (plain text)" },
+        { "name": "cc", "type": "string", "required": false, "description": "CC email address(es), comma-separated" },
+        { "name": "reply_to", "type": "string", "required": false, "description": "Message ID to reply to (creates threaded reply)" }
+      ],
+      "handler_file": "handlers/send.ts"
+    }
+  ]
+}
