@@ -1,0 +1,30 @@
+{
+  "id": "create-docx",
+  "title": "Create Word Document",
+  "description": "Convert Markdown content into a downloadable .docx Word document with proper headings, lists, and formatting",
+  "version": "0.0.1",
+  "author": "Jarvis Inc",
+  "category": "creation",
+  "icon": "FileText",
+  "tags": ["docx", "word", "document", "export", "download"],
+  "status": "available",
+  "connection_type": "none",
+  "handler_runtime": "python",
+  "files": ["handlers/convert.py"],
+  "output_type": "document",
+  "collateral": true,
+  "risk_level": "safe",
+  "commands": [
+    {
+      "name": "convert",
+      "description": "Convert Markdown text into a .docx Word document",
+      "handler_file": "handlers/convert.py",
+      "parameters": [
+        { "name": "markdown", "type": "string", "required": true, "description": "Markdown content to convert to .docx" },
+        { "name": "filename", "type": "string", "required": false, "description": "Output filename (without extension)", "default": "document" },
+        { "name": "title", "type": "string", "required": false, "description": "Document title (added as Title style heading)", "default": "" }
+      ],
+      "returns": { "type": "string", "description": "Summary of the generated document with a download link" }
+    }
+  ]
+}
