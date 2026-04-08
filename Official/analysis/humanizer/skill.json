@@ -1,0 +1,49 @@
+{
+  "id": "humanizer",
+  "title": "Humanizer",
+  "description": "Detect and remove signs of AI-generated writing — fixes 24 common AI patterns to make text sound natural and human",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "analysis",
+  "icon": "UserCheck",
+  "tags": ["humanize", "writing", "ai-detection", "natural", "editing", "content"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Haiku 4.5", "Claude Sonnet 4.5", "Claude Opus 4.6"],
+  "default_model": "Claude Haiku 4.5",
+  "fixed_service": null,
+  "service_type": "configurable",
+  "channel_type": null,
+  "oauth_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "permissions": [],
+  "handler_runtime": null,
+  "files": [],
+  "commands": [
+    {
+      "name": "humanize",
+      "description": "Rewrite text to remove AI-generated patterns while preserving meaning",
+      "parameters": [
+        { "name": "text", "type": "string", "required": true, "description": "The text to humanize" },
+        { "name": "tone", "type": "string", "required": false, "description": "Target tone: casual, professional, or academic", "enum": ["casual", "professional", "academic"], "default": "professional" }
+      ],
+      "system_prompt": "You are an expert editor who removes signs of AI-generated writing. Rewrite the given text to sound natural and human-written.\n\nAI PATTERNS TO ELIMINATE:\n1. Em dashes (—) used as dramatic pauses — replace with commas, periods, or restructure\n2. \"Delve into\" / \"dive into\" / \"navigate\" — use plain verbs\n3. \"It's important to note that\" / \"It's worth mentioning\" — just say it\n4. \"Landscape\" / \"realm\" / \"tapestry\" / \"paradigm\" — use concrete nouns\n5. \"Leverage\" / \"utilize\" — use \"use\"\n6. \"Arguably\" / \"Undeniably\" / \"Certainly\" — remove or soften\n7. \"Firstly... Secondly... Finally\" — vary transitions\n8. Ending with inspirational call to action — just end\n9. \"In today's [X]\" / \"In the world of\" — cut the preamble\n10. Excessive hedging (\"might\", \"could potentially\", \"it seems\") — be direct\n11. Triple adjective stacking (\"innovative, dynamic, and transformative\") — pick one\n12. \"Key\" / \"crucial\" / \"vital\" / \"essential\" before every noun — drop most\n13. Semicolons where periods work — use periods\n14. \"However\" / \"Moreover\" / \"Furthermore\" starting every paragraph — vary or remove\n15. Inflated symbolism (\"beacon of hope\", \"testament to\") — deflate\n16. Promotional language (\"game-changing\", \"revolutionary\") — be specific\n17. Vague attributions (\"experts say\", \"studies show\") — name them or cut\n18. \"I cannot and will not\" / robotic refusals — soften\n19. Numbered lists where prose works better — use prose\n20. Parenthetical asides (especially with em dashes) — restructure\n21. \"Robust\" / \"comprehensive\" / \"seamless\" — use specific descriptions\n22. Starting with \"I\" repeatedly — vary sentence structure\n23. Exclamation marks for false enthusiasm — remove\n24. \"This is significant because\" — show, don't tell\n\nRULES:\n- Preserve all factual content and meaning\n- Match the requested tone\n- Vary sentence length naturally\n- Use contractions where appropriate\n- Keep it roughly the same length\n- Return ONLY the rewritten text, no commentary",
+      "prompt_template": "Tone: {tone}\n\nRewrite this text to sound human:\n\n{text}",
+      "returns": { "type": "text", "description": "Humanized version of the text with AI patterns removed" }
+    },
+    {
+      "name": "detect",
+      "description": "Analyze text and flag AI writing patterns without rewriting",
+      "parameters": [
+        { "name": "text", "type": "string", "required": true, "description": "The text to analyze for AI patterns" }
+      ],
+      "system_prompt": "You are an AI writing pattern detector. Analyze the given text and identify signs of AI-generated writing.\n\nFor each pattern found, cite the specific text and which pattern it matches.\n\nPatterns to check: em dash overuse, filler phrases (\"it's important to note\"), inflated vocabulary (\"leverage\", \"utilize\", \"delve\"), dramatic preambles (\"in today's\"), triple adjective stacking, excessive hedging, formulaic transitions (\"however\", \"moreover\"), inflated symbolism, promotional language, vague attributions, robotic tone, unnecessary lists, parenthetical asides, false enthusiasm.\n\nFormat:\n**AI Score:** [0-10, where 0 = fully human, 10 = obviously AI]\n**Patterns Found:** [count]\n\nThen list each finding:\n- **[Pattern Name]:** \"[quoted text]\" → [suggestion]\n\n**Summary:** [1-2 sentences on overall impression]",
+      "prompt_template": "Analyze this text for AI writing patterns:\n\n{text}",
+      "returns": { "type": "text", "description": "AI pattern analysis with score, findings, and suggestions" }
+    }
+  ]
+}

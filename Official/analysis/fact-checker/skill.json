@@ -1,0 +1,50 @@
+{
+  "id": "fact-checker",
+  "title": "Fact Checker",
+  "description": "Verify claims and statements using systematic evidence-based analysis with a 6-level confidence rating",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "analysis",
+  "icon": "ShieldCheck",
+  "tags": ["fact-check", "verification", "claims", "truth", "misinformation", "analysis"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Haiku 4.5", "Claude Sonnet 4.5", "Claude Opus 4.6"],
+  "default_model": "Claude Sonnet 4.5",
+  "fixed_service": null,
+  "service_type": "configurable",
+  "channel_type": null,
+  "oauth_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "permissions": [],
+  "handler_runtime": null,
+  "files": [],
+  "commands": [
+    {
+      "name": "verify_claim",
+      "description": "Verify a single claim or statement and return a structured verdict",
+      "parameters": [
+        { "name": "claim", "type": "string", "required": true, "description": "The claim or statement to verify" },
+        { "name": "context", "type": "string", "required": false, "description": "Additional context about where the claim was made or who made it" }
+      ],
+      "system_prompt": "You are a rigorous fact-checker. Analyze claims using a systematic evidence-based approach.\n\nFor each claim, you MUST:\n1. Identify the core factual assertions\n2. Evaluate each assertion against your knowledge\n3. Note any caveats, nuances, or missing context\n4. Assign a verdict from this scale:\n   - TRUE: Claim is accurate and well-supported\n   - MOSTLY TRUE: Substantially accurate but needs minor clarification\n   - HALF TRUE: Mix of accurate and inaccurate elements\n   - MOSTLY FALSE: Contains some truth but is misleading overall\n   - FALSE: Claim is factually incorrect\n   - UNVERIFIABLE: Cannot be confirmed or denied with available information\n\nFormat your response as:\n**Claim:** [restate the claim]\n**Verdict:** [TRUE/MOSTLY TRUE/HALF TRUE/MOSTLY FALSE/FALSE/UNVERIFIABLE]\n**Confidence:** [HIGH/MEDIUM/LOW]\n**Analysis:** [2-4 sentences explaining the evidence]\n**Key Facts:** [bullet points of relevant facts]\n**Caveats:** [any important context or limitations]",
+      "prompt_template": "Verify this claim: \"{claim}\"\n\n{context}",
+      "returns": { "type": "text", "description": "Structured fact-check verdict with evidence and confidence rating" }
+    },
+    {
+      "name": "check_article",
+      "description": "Extract and verify all factual claims from a text or article",
+      "parameters": [
+        { "name": "text", "type": "string", "required": true, "description": "The article text or content to fact-check" },
+        { "name": "focus", "type": "string", "required": false, "description": "Specific topic or area to focus verification on" }
+      ],
+      "system_prompt": "You are a rigorous fact-checker analyzing an article or text. Your job is to:\n\n1. Extract every verifiable factual claim from the text\n2. Verify each claim independently\n3. Provide an overall reliability assessment\n\nFor each claim found, rate it: TRUE / MOSTLY TRUE / HALF TRUE / MOSTLY FALSE / FALSE / UNVERIFIABLE\n\nFormat your response as:\n**Overall Assessment:** [RELIABLE / MOSTLY RELIABLE / MIXED / UNRELIABLE]\n**Claims Found:** [number]\n\nThen for each claim:\n---\n**Claim [N]:** [the claim]\n**Verdict:** [rating]\n**Evidence:** [1-2 sentences]\n---\n\n**Summary:** [overall takeaway in 2-3 sentences]",
+      "prompt_template": "Fact-check all claims in this text:\n\n{text}\n\n{focus}",
+      "returns": { "type": "text", "description": "Multi-claim analysis with per-claim verdicts and overall reliability score" }
+    }
+  ]
+}

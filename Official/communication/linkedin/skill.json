@@ -1,0 +1,63 @@
+{
+  "id": "linkedin",
+  "title": "LinkedIn",
+  "description": "Create and publish posts to LinkedIn — share updates, articles, and media with your professional network",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Linkedin",
+  "tags": ["linkedin", "social", "posting", "professional", "networking"],
+  "status": "available",
+  "connection_type": "oauth",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "LinkedIn",
+  "service_type": "fixed",
+  "channel_type": null,
+  "oauth_config": {
+    "provider": "LinkedIn",
+    "auth_url": "https://www.linkedin.com/oauth/v2/authorization",
+    "token_url": "https://www.linkedin.com/oauth/v2/accessToken",
+    "scopes": ["openid", "profile", "w_member_social"],
+    "pkce": false
+  },
+  "api_config": {
+    "base_url": "https://api.linkedin.com/v2",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "LinkedIn"
+  },
+  "execution_handler": null,
+  "output_type": "data",
+  "collateral": true,
+  "risk_level": "moderate",
+  "permissions": ["network"],
+  "handler_runtime": "typescript",
+  "files": ["handlers/create_post.ts", "handlers/get_profile.ts"],
+  "settings": {
+    "linkedin_author_urn": {
+      "type": "string",
+      "default": "",
+      "description": "Your LinkedIn person URN (e.g. urn:li:person:AbCdEf). Found via get_profile command."
+    }
+  },
+  "commands": [
+    {
+      "name": "create_post",
+      "description": "Publish a text post to LinkedIn",
+      "parameters": [
+        { "name": "text", "type": "string", "required": true, "description": "Post content (up to 3000 characters)" },
+        { "name": "visibility", "type": "string", "required": false, "description": "Post visibility", "enum": ["PUBLIC", "CONNECTIONS"], "default": "PUBLIC" }
+      ],
+      "handler_file": "handlers/create_post.ts",
+      "returns": { "type": "object", "description": "LinkedIn post response with post URN" }
+    },
+    {
+      "name": "get_profile",
+      "description": "Get your LinkedIn profile info including person URN (needed for author_urn setting)",
+      "parameters": [],
+      "handler_file": "handlers/get_profile.ts",
+      "returns": { "type": "object", "description": "LinkedIn profile with name, URN, and headline" }
+    }
+  ]
+}

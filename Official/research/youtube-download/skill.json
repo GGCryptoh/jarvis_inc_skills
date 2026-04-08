@@ -1,0 +1,62 @@
+{
+  "id": "youtube-download",
+  "title": "YouTube Download",
+  "description": "Download YouTube videos or extract audio using yt-dlp — supports metadata extraction, format selection, and audio conversion",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "research",
+  "icon": "Youtube",
+  "tags": ["youtube", "video", "audio", "download", "yt-dlp", "media"],
+  "status": "available",
+  "connection_type": "cli",
+  "models": null,
+  "default_model": null,
+  "fixed_service": null,
+  "service_type": null,
+  "channel_type": null,
+  "oauth_config": null,
+  "cli_config": {
+    "binary": "yt-dlp",
+    "install_command": "pip install yt-dlp",
+    "version_check": "yt-dlp --version"
+  },
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "mixed",
+  "collateral": true,
+  "risk_level": "safe",
+  "permissions": ["network", "filesystem_write", "shell_exec"],
+  "handler_runtime": "bash",
+  "files": ["handlers/get_info.sh", "handlers/download_audio.sh", "handlers/download_video.sh"],
+  "commands": [
+    {
+      "name": "get_info",
+      "description": "Get video metadata without downloading (title, duration, description, thumbnails)",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "YouTube video URL" }
+      ],
+      "handler_file": "handlers/get_info.sh",
+      "returns": { "type": "object", "description": "Video metadata: title, duration, description, uploader, view count, upload date" }
+    },
+    {
+      "name": "download_audio",
+      "description": "Extract audio from a YouTube video",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "YouTube video URL" },
+        { "name": "format", "type": "string", "required": false, "description": "Audio format", "enum": ["mp3", "wav", "m4a"], "default": "mp3" }
+      ],
+      "handler_file": "handlers/download_audio.sh",
+      "returns": { "type": "object", "description": "Downloaded audio file path and metadata" }
+    },
+    {
+      "name": "download_video",
+      "description": "Download a YouTube video",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "YouTube video URL" },
+        { "name": "quality", "type": "string", "required": false, "description": "Video quality", "enum": ["best", "720p", "480p", "360p"], "default": "720p" }
+      ],
+      "handler_file": "handlers/download_video.sh",
+      "returns": { "type": "object", "description": "Downloaded video file path and metadata" }
+    }
+  ]
+}

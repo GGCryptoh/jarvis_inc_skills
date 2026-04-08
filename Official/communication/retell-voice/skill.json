@@ -1,0 +1,109 @@
+{
+  "id": "retell-voice",
+  "title": "Retell Voice",
+  "description": "Voice calls via Retell AI — inbound with auth gate (codewords + DTMF pin) and outbound for daily briefs and alerts",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Phone",
+  "tags": ["voice", "phone", "call", "retell", "speech", "tts", "inbound", "outbound"],
+  "status": "available",
+  "connection_type": "api_key",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Retell",
+  "service_type": "fixed",
+  "channel_type": null,
+  "oauth_config": null,
+  "curl_example": "curl -s https://api.retellai.com/v2/list-calls -H 'Authorization: Bearer $RETELL_API_KEY'",
+  "api_config": {
+    "base_url": "https://api.retellai.com",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "Retell"
+  },
+  "execution_handler": null,
+  "output_type": "data",
+  "collateral": true,
+  "risk_level": "moderate",
+  "permissions": ["network"],
+  "handler_runtime": "typescript",
+  "files": ["handlers/call_founder.ts", "handlers/list_calls.ts", "handlers/get_call.ts"],
+  "settings": {
+    "retell_phone_number": {
+      "type": "string",
+      "default": "",
+      "description": "Retell phone number (e.g. +1234567890)"
+    },
+    "retell_agent_id": {
+      "type": "string",
+      "default": "",
+      "description": "Retell agent ID for the voice agent"
+    },
+    "retell_voice_id": {
+      "type": "string",
+      "default": "",
+      "description": "Retell voice model ID (from retellai.com/voices)"
+    },
+    "retell_personality": {
+      "type": "string",
+      "default": "You are Jarvis, an AI assistant. Sound confident, warm, and slightly formal — like a British butler who also happens to be a genius. Think Jarvis from Marvel.",
+      "description": "Voice personality instructions sent to Retell"
+    },
+    "retell_auth_codewords": {
+      "type": "string",
+      "default": "tango tango",
+      "description": "Phonetic codewords for inbound call authentication (e.g. 'tango tango')"
+    },
+    "retell_auth_dtmf_pin": {
+      "type": "string",
+      "default": "1234",
+      "description": "3-4 digit DTMF fallback pin for inbound authentication"
+    },
+    "retell_auth_max_attempts": {
+      "type": "number",
+      "default": 3,
+      "description": "Max failed auth attempts before hanging up"
+    },
+    "retell_webhook_url": {
+      "type": "string",
+      "default": "",
+      "description": "ngrok webhook URL for Claude harness actions (optional)"
+    },
+    "retell_founder_phone": {
+      "type": "string",
+      "default": "",
+      "description": "Founder's phone number for outbound calls (e.g. +1234567890)"
+    }
+  },
+  "commands": [
+    {
+      "name": "call_founder",
+      "description": "Initiate an outbound call to the founder (for daily briefs, urgent alerts, etc.)",
+      "parameters": [
+        { "name": "context", "type": "string", "required": true, "description": "Briefing context — what the CEO should discuss on the call" },
+        { "name": "urgency", "type": "string", "required": false, "description": "Call urgency level", "enum": ["routine", "important", "urgent"], "default": "routine" }
+      ],
+      "handler_file": "handlers/call_founder.ts",
+      "returns": { "type": "object", "description": "Call initiation response with call ID and status" }
+    },
+    {
+      "name": "list_calls",
+      "description": "List recent voice calls with status and duration",
+      "parameters": [
+        { "name": "limit", "type": "number", "required": false, "description": "Max calls to return", "default": 10 }
+      ],
+      "handler_file": "handlers/list_calls.ts",
+      "returns": { "type": "object", "description": "Array of recent calls with metadata" }
+    },
+    {
+      "name": "get_call",
+      "description": "Get details of a specific call including transcript",
+      "parameters": [
+        { "name": "call_id", "type": "string", "required": true, "description": "Retell call ID" }
+      ],
+      "handler_file": "handlers/get_call.ts",
+      "returns": { "type": "object", "description": "Call details with transcript, duration, and recording URL" }
+    }
+  ]
+}

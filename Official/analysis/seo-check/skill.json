@@ -1,0 +1,47 @@
+{
+  "id": "seo-check",
+  "title": "SEO Audit",
+  "description": "Audit websites for SEO issues — meta tags, headings, crawlability, content quality, technical foundations, and performance hints",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "analysis",
+  "icon": "Search",
+  "tags": ["seo", "audit", "meta-tags", "crawlability", "search", "optimization"],
+  "status": "available",
+  "connection_type": "llm",
+  "models": ["Claude Haiku 4.5", "Claude Sonnet 4.5", "Claude Opus 4.6"],
+  "default_model": "Claude Sonnet 4.5",
+  "fixed_service": null,
+  "service_type": "configurable",
+  "channel_type": null,
+  "oauth_config": null,
+  "api_config": null,
+  "execution_handler": null,
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "safe",
+  "permissions": ["network"],
+  "handler_runtime": "typescript",
+  "files": ["handlers/audit.ts", "handlers/check_meta.ts"],
+  "commands": [
+    {
+      "name": "audit",
+      "description": "Full SEO audit of a webpage — fetches the page and analyzes meta tags, headings, content structure, links, and technical SEO signals",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "URL to audit" },
+        { "name": "depth", "type": "string", "required": false, "description": "Audit depth", "enum": ["shallow", "deep"], "default": "shallow" }
+      ],
+      "handler_file": "handlers/audit.ts",
+      "returns": { "type": "text", "description": "Comprehensive SEO audit report with scores and recommendations" }
+    },
+    {
+      "name": "check_meta",
+      "description": "Quick check of meta tags, Open Graph, and Twitter Card data for a URL",
+      "parameters": [
+        { "name": "url", "type": "string", "required": true, "description": "URL to check" }
+      ],
+      "handler_file": "handlers/check_meta.ts",
+      "returns": { "type": "text", "description": "Meta tag analysis with present/missing tags and recommendations" }
+    }
+  ]
+}

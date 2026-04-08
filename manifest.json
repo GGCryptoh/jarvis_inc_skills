@@ -1,7 +1,7 @@
 {
-  "version": "0.3.3",
+  "version": "0.4.0",
   "format": "mixed",
-  "updated_at": "2026-02-23T18:00:00Z",
+  "updated_at": "2026-04-08T12:00:00Z",
   "skills": [
     {
       "path": "Official/research/research_web.json",
@@ -138,6 +138,62 @@
       "manifest_file": "skill.json",
       "files": ["skill.json", "handlers/list.ts", "handlers/read.ts", "handlers/send.ts"],
       "checksum": "adbb21ab86da8bf101468446b43a42797bcbd38a0d2fc0c2a490500920d004ae"
+    },
+    {
+      "path": "Official/communication/resend-email",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json"],
+      "checksum": "5e8aefb4cd2767519f0b62f7d43ac7eff589b9009884bac66bf56581806408c4"
+    },
+    {
+      "path": "Official/communication/linkedin",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/create_post.ts", "handlers/get_profile.ts"],
+      "checksum": "73786874cf600be963155a489eba5e9540b9b488918e301e425c6c54d5c5d729"
+    },
+    {
+      "path": "Official/communication/retell-voice",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/call_founder.ts", "handlers/list_calls.ts", "handlers/get_call.ts"],
+      "checksum": "11b9005ebb2ac1f93da04849c8c9e9e6443516b332cb88d0e308f2717ebb29b8"
+    },
+    {
+      "path": "Official/research/youtube-download",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/get_info.sh", "handlers/download_audio.sh", "handlers/download_video.sh"],
+      "checksum": "9f504d8d9334fb79f038092653f25d348e4ddf04dfb8859c575051971271f432"
+    },
+    {
+      "path": "Official/analysis/fact-checker",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json"],
+      "checksum": "a095462d9a6e698041739edcf4776ab701f404a66246c5a0b59fcb8a38eb05ef"
+    },
+    {
+      "path": "Official/analysis/humanizer",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json"],
+      "checksum": "1eb999c3c81cffb51df010810bbf9ae6b70e279c4ba6fbacfd4ee02da712c2fa"
+    },
+    {
+      "path": "Official/analysis/seo-check",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/audit.ts", "handlers/check_meta.ts"],
+      "checksum": "8eb66bc44c6a4f846d7011ee5037d95aae8b45686abcdb9bb05d60984be7e0f6"
+    },
+    {
+      "path": "Official/analysis/security-audit",
+      "type": "directory",
+      "manifest_file": "skill.json",
+      "files": ["skill.json", "handlers/scan.ts", "handlers/check_headers.ts"],
+      "checksum": "68014ab17e7bd3ab032437ef1563d27ab78b5b7613862f6cf0e4a498a49d1250"
     },
     {
       "path": "Official/communication/calendar-full-google",

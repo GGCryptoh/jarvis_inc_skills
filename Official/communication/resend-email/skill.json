@@ -1,0 +1,111 @@
+{
+  "id": "resend-email",
+  "title": "Resend Email",
+  "description": "Send transactional emails via Resend API — the org's outbound email identity",
+  "version": "0.1.0",
+  "author": "Jarvis Inc",
+  "category": "communication",
+  "icon": "Send",
+  "tags": ["email", "resend", "outbound", "notification", "transactional"],
+  "status": "available",
+  "connection_type": "api_key",
+  "models": null,
+  "default_model": null,
+  "fixed_service": "Resend",
+  "service_type": "fixed",
+  "channel_type": null,
+  "oauth_config": null,
+  "curl_example": "curl -s -X POST https://api.resend.com/emails -H 'Authorization: Bearer $RESEND_API_KEY' -H 'Content-Type: application/json' -d '{\"from\":\"jarvis@geoffhopkins.com\",\"to\":[\"recipient@example.com\"],\"subject\":\"Hello\",\"html\":\"<p>World</p>\"}'",
+  "api_config": {
+    "base_url": "https://api.resend.com",
+    "auth_header": "Authorization",
+    "auth_prefix": "Bearer",
+    "vault_service": "Resend"
+  },
+  "execution_handler": null,
+  "output_type": "data",
+  "collateral": true,
+  "risk_level": "moderate",
+  "permissions": ["network"],
+  "handler_runtime": null,
+  "files": [],
+  "settings": {
+    "resend_from_address": {
+      "type": "string",
+      "default": "jarvis@geoffhopkins.com",
+      "description": "Sender email address (must be verified domain in Resend)"
+    },
+    "resend_from_name": {
+      "type": "string",
+      "default": "Jarvis",
+      "description": "Sender display name"
+    }
+  },
+  "commands": [
+    {
+      "name": "send_email",
+      "description": "Send an email via Resend",
+      "parameters": [
+        { "name": "to", "type": "string", "required": true, "description": "Recipient email address (or comma-separated for multiple)" },
+        { "name": "subject", "type": "string", "required": true, "description": "Email subject line" },
+        { "name": "html_body", "type": "string", "required": true, "description": "Email body as HTML" },
+        { "name": "text_body", "type": "string", "required": false, "description": "Plain text fallback body" },
+        { "name": "cc", "type": "string", "required": false, "description": "CC recipients (comma-separated)" },
+        { "name": "bcc", "type": "string", "required": false, "description": "BCC recipients (comma-separated)" },
+        { "name": "reply_to", "type": "string", "required": false, "description": "Reply-to email address" }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/emails",
+        "headers": { "Content-Type": "application/json" },
+        "body": {
+          "from": "{from_name} <{from_address}>",
+          "to": ["{to}"],
+          "subject": "{subject}",
+          "html": "{html_body}",
+          "text": "{text_body}",
+          "cc": "{cc}",
+          "bcc": "{bcc}",
+          "reply_to": "{reply_to}"
+        }
+      },
+      "response": {
+        "extract": {
+          "id": "id"
+        }
+      },
+      "output_template": "Email sent successfully. ID: {id}",
+      "returns": { "type": "object", "description": "Resend email response with message ID" }
+    },
+    {
+      "name": "send_with_attachment",
+      "description": "Send an email with a file attachment via Resend",
+      "parameters": [
+        { "name": "to", "type": "string", "required": true, "description": "Recipient email address" },
+        { "name": "subject", "type": "string", "required": true, "description": "Email subject line" },
+        { "name": "html_body", "type": "string", "required": true, "description": "Email body as HTML" },
+        { "name": "attachment_content", "type": "string", "required": true, "description": "Base64-encoded file content" },
+        { "name": "attachment_filename", "type": "string", "required": true, "description": "Filename for the attachment" }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/emails",
+        "headers": { "Content-Type": "application/json" },
+        "body": {
+          "from": "{from_name} <{from_address}>",
+          "to": ["{to}"],
+          "subject": "{subject}",
+          "html": "{html_body}",
+          "attachments": [{ "filename": "{attachment_filename}", "content": "{attachment_content}" }]
+        }
+      },
+      "response": {
+        "extract": {
+          "id": "id"
+        }
+      },
+      "output_template": "Email with attachment '{attachment_filename}' sent. ID: {id}",
+      "returns": { "type": "object", "description": "Resend email response with message ID" }
+    }
+  ]
+}
