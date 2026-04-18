@@ -143,8 +143,97 @@
       "cost_per_million_usd": { "input": 0.55, "output": 2.19 }
     },
 
+    { "_": "── OpenAI — future / speculative ───────────────────" },
+
+    {
+      "id": "gpt-6",
+      "name": "GPT-6",
+      "full_name": "OpenAI GPT-6",
+      "provider": "OpenAI",
+      "api_id": "gpt-6",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "flagship",
+      "tier": "premium",
+      "context_window": 256000,
+      "cost_per_million_usd": { "input": 15, "output": 45 },
+      "notes": "Speculative successor to GPT-5.2. Reserved slot — enable when the real api_id ships."
+    },
+    {
+      "id": "o5-pro",
+      "name": "o5-pro",
+      "full_name": "OpenAI o5-pro",
+      "provider": "OpenAI",
+      "api_id": "o5-pro",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "reasoning",
+      "tier": "premium",
+      "context_window": 256000,
+      "cost_per_million_usd": { "input": 25, "output": 100 },
+      "notes": "Next-gen reasoning model. Reserved."
+    },
+    {
+      "id": "o5-mini",
+      "name": "o5-mini",
+      "full_name": "OpenAI o5-mini",
+      "provider": "OpenAI",
+      "api_id": "o5-mini",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "reasoning",
+      "tier": "standard",
+      "context_window": 256000,
+      "cost_per_million_usd": { "input": 1.5, "output": 6 }
+    },
+
+    { "_": "── Anthropic — future / speculative ────────────────" },
+
+    {
+      "id": "claude-opus-5",
+      "name": "Opus 5",
+      "full_name": "Claude Opus 5",
+      "provider": "Anthropic",
+      "api_id": "claude-opus-5",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "flagship",
+      "tier": "premium",
+      "context_window": 2000000,
+      "cost_per_million_usd": { "input": 7, "output": 35 },
+      "notes": "Reserved for when Anthropic ships Opus 5."
+    },
+
     { "_": "── Coming soon / untested ──────────────────────────" },
 
+    {
+      "id": "perplexity-sonar",
+      "name": "Perplexity",
+      "full_name": "Perplexity Sonar Pro",
+      "provider": "Perplexity",
+      "api_id": "sonar-pro",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "flagship",
+      "tier": "standard",
+      "context_window": 200000,
+      "cost_per_million_usd": { "input": 3, "output": 15 },
+      "notes": "Web-search-native LLM. Great for real-time research agents."
+    },
+    {
+      "id": "cohere-command-r-plus",
+      "name": "Command R+",
+      "full_name": "Cohere Command R+",
+      "provider": "Cohere",
+      "api_id": "command-r-plus-08-2024",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "balanced",
+      "tier": "standard",
+      "context_window": 128000,
+      "cost_per_million_usd": { "input": 2.5, "output": 10 },
+      "notes": "Cohere's flagship. Strong at RAG and enterprise workflows."
+    },
     {
       "id": "kimi-k2",
       "name": "Kimi K2",
@@ -229,6 +318,90 @@
       "context_window": 128000,
       "cost_per_million_usd": { "input": 0.6, "output": 0.6 },
       "notes": "Available via Ollama, Together, Groq. Pending provider-routing."
+    },
+    {
+      "id": "qwen-2-5-local",
+      "name": "Qwen 2.5 (local)",
+      "full_name": "Qwen 2.5 72B — local via Ollama",
+      "provider": "Ollama",
+      "api_id": "qwen2.5:72b",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "local",
+      "tier": "free",
+      "context_window": 128000,
+      "cost_per_million_usd": { "input": 0, "output": 0 },
+      "notes": "Alibaba Qwen 2.5 pulled via `ollama pull qwen2.5:72b`. Needs ~40GB VRAM or decent RAM."
+    },
+    {
+      "id": "gemma-3-local",
+      "name": "Gemma 3 (local)",
+      "full_name": "Google Gemma 3 — local via Ollama",
+      "provider": "Ollama",
+      "api_id": "gemma3:27b",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "local",
+      "tier": "free",
+      "context_window": 128000,
+      "cost_per_million_usd": { "input": 0, "output": 0 },
+      "notes": "Google's open-weight small/mid models. Good quality for local inference."
+    },
+    {
+      "id": "deepseek-local",
+      "name": "DeepSeek (local)",
+      "full_name": "DeepSeek V3 — local via Ollama",
+      "provider": "Ollama",
+      "api_id": "deepseek-v3",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "local",
+      "tier": "free",
+      "context_window": 64000,
+      "cost_per_million_usd": { "input": 0, "output": 0 },
+      "notes": "Open-weight DeepSeek. Runs locally. Large model — needs substantial hardware."
+    },
+    {
+      "id": "phi-4",
+      "name": "Phi-4",
+      "full_name": "Microsoft Phi-4 (local)",
+      "provider": "Ollama",
+      "api_id": "phi4",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "local",
+      "tier": "free",
+      "context_window": 16000,
+      "cost_per_million_usd": { "input": 0, "output": 0 },
+      "notes": "Small (14B), efficient, runs on laptops. Great for quick local drafting."
+    },
+    {
+      "id": "mistral-small-local",
+      "name": "Mistral Sm",
+      "full_name": "Mistral Small 3 — local via Ollama",
+      "provider": "Ollama",
+      "api_id": "mistral-small",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "local",
+      "tier": "free",
+      "context_window": 32000,
+      "cost_per_million_usd": { "input": 0, "output": 0 },
+      "notes": "24B-param Mistral Small. Runs locally with modest hardware."
+    },
+    {
+      "id": "mlc-webllm",
+      "name": "WebLLM",
+      "full_name": "MLC WebLLM — browser-local",
+      "provider": "WebLLM",
+      "api_id": "webllm",
+      "enabled": false,
+      "coming_soon": true,
+      "category": "local",
+      "tier": "free",
+      "context_window": 8000,
+      "cost_per_million_usd": { "input": 0, "output": 0 },
+      "notes": "Runs entirely in the browser via WebGPU. Zero install, zero server. Experimental."
     }
   ]
 }
