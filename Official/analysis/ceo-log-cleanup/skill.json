@@ -1,0 +1,52 @@
+{
+  "id": "ceo-log-cleanup",
+  "title": "CEO Log Cleanup",
+  "description": "Housekeeping skill — prunes noisy/old rows from audit_log, llm_usage aggregates, old task_executions, and stale chat_messages based on configurable retention. Returns a deletion summary.",
+  "version": "1.0.0",
+  "author": "Jarvis Inc",
+  "category": "analysis",
+  "icon": "Trash2",
+  "tags": ["cleanup", "housekeeping", "audit", "maintenance", "retention"],
+  "status": "available",
+  "connection_type": "none",
+  "models": null,
+  "default_model": null,
+  "fixed_service": null,
+  "service_type": null,
+  "oauth_config": null,
+  "curl_example": null,
+  "cli_config": null,
+  "api_config": null,
+  "execution_handler": "gateway:ceo-log-cleanup",
+  "output_type": "text",
+  "collateral": true,
+  "risk_level": "moderate",
+  "permissions": ["filesystem_read"],
+  "handler_runtime": "typescript",
+  "files": ["handlers/cleanup.ts"],
+  "default_schedule": {
+    "frequency": "weekly",
+    "run_at_time": "04:00",
+    "run_on_day": 0,
+    "command": "cleanup",
+    "params": { "audit_retention_days": 30, "chat_retention_days": 90, "task_retention_days": 60, "usage_retention_days": 180, "dry_run": false }
+  },
+  "commands": [
+    {
+      "name": "cleanup",
+      "description": "Delete rows older than the configured retention windows. Returns a markdown summary of how many rows were pruned per table.",
+      "handler_file": "handlers/cleanup.ts",
+      "parameters": [
+        { "name": "audit_retention_days", "type": "number", "required": false, "default": 30, "description": "Delete audit_log entries older than N days (severity=info only; warnings/errors preserved)" },
+        { "name": "chat_retention_days", "type": "number", "required": false, "default": 90, "description": "Delete chat_messages from closed conversations older than N days" },
+        { "name": "task_retention_days", "type": "number", "required": false, "default": 60, "description": "Delete task_executions that completed successfully older than N days" },
+        { "name": "usage_retention_days", "type": "number", "required": false, "default": 180, "description": "Delete individual llm_usage rows older than N days (daily aggregate rows preserved)" },
+        { "name": "dry_run", "type": "boolean", "required": false, "default": false, "description": "Report what would be deleted without deleting anything" }
+      ],
+      "returns": {
+        "type": "string",
+        "description": "Markdown summary of deletions by table"
+      }
+    }
+  ]
+}
